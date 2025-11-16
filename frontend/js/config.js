@@ -1,7 +1,7 @@
 // Configuración de la aplicación
 const CONFIG = {
     // La URL del backend se actualizará después de desplegar en Render
-    API_URL: 'https://caverosalud-digital-backend.onrender.com/api',
+    API_URL: 'https://caverosalud-digital.onrender.com',
     // Configuración de Supabase
     SUPABASE: {
         URL: 'https://hxosnhieeqlhdmjbjoku.supabase.co',
