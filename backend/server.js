@@ -19,3 +19,11 @@ async function getUsers() {
     
     return data;
 }
+
+app.use(cors({
+    origin: [
+        'https://caverosalud-digital.netlify.app',
+        'http://localhost:3000'
+    ],
+    credentials: true
+}));
