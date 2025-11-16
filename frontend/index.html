@@ -4,15 +4,512 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CaveroSalud Digital - Plataforma de Salud</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <style>
+        /* Estilos CSS */
+        :root {
+            --primary-color: #1a73e8;
+            --secondary-color: #34a853;
+            --accent-color: #fbbc05;
+            --danger-color: #ea4335;
+            --light-color: #f8f9fa;
+            --dark-color: #202124;
+            --gray-color: #5f6368;
+            --border-radius: 8px;
+            --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header */
+        header {
+            background-color: white;
+            box-shadow: var(--box-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        nav a:hover, nav a.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary:hover {
+            background-color: #0d62d0;
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(26, 115, 232, 0.1);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color), #0d62d0);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn-light {
+            background-color: white;
+            color: var(--primary-color);
+        }
+
+        .btn-light:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+            background-color: white;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            color: var(--dark-color);
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            color: var(--gray-color);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background-color: var(--light-color);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            text-align: center;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 15px;
+            color: var(--dark-color);
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 80px 0;
+            background-color: #f5f7fa;
+        }
+
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 50px;
+        }
+
+        .step {
+            flex: 1;
+            min-width: 250px;
+            text-align: center;
+            padding: 30px 20px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            line-height: 40px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        /* Login/Register Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray-color);
+        }
+
+        .form-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--dark-color);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .form-footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Dashboard */
+        .dashboard {
+            display: none;
+            padding: 40px 0;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .dashboard-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--dark-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .appointments-list {
+            list-style: none;
+        }
+
+        .appointment-item {
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .appointment-item:last-child {
+            border-bottom: none;
+        }
+
+        .appointment-info h4 {
+            margin-bottom: 5px;
+        }
+
+        .appointment-info p {
+            color: var(--gray-color);
+            font-size: 0.9rem;
+        }
+
+        .appointment-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .btn-success {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 50px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column a {
+            color: #ddd;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-column a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .steps {
+                flex-direction: column;
+            }
+
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Header -->
     <header>
         <div class="container header-container">
             <div class="logo">
-                <h1>🩺 CaveroSalud Digital</h1>
+                <h1>CaveroSalud Digital</h1>
             </div>
             <nav>
                 <ul>
@@ -30,10 +527,502 @@
         </div>
     </header>
 
-    <!-- Resto del contenido igual que antes pero separando CSS/JS -->
-    
-    <script src="js/config.js"></script>
-    <script src="js/auth.js"></script>
-    <script src="js/app.js"></script>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h2>Tu salud, nuestra prioridad</h2>
+            <p>Accede a servicios médicos de calidad desde la comodidad de tu hogar. Agenda citas, consulta tu historia clínica y recibe atención personalizada.</p>
+            <div class="hero-buttons">
+                <button class="btn btn-light" id="heroRegisterBtn">Comenzar ahora</button>
+                <button class="btn btn-outline" style="border-color: white; color: white;">Más información</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Nuestros Servicios</h2>
+                <p>Descubre todas las funcionalidades que ofrece nuestra plataforma para mejorar tu experiencia médica</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📅</div>
+                    <h3>Agenda de Citas</h3>
+                    <p>Reserva y gestiona tus citas médicas de forma rápida y sencilla, eligiendo especialidad, médico y horario.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📋</div>
+                    <h3>Historia Clínica Digital</h3>
+                    <p>Accede a tu historial médico completo, diagnósticos, tratamientos y resultados de exámenes en cualquier momento.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔔</div>
+                    <h3>Recordatorios Automáticos</h3>
+                    <p>Recibe notificaciones y recordatorios de tus próximas citas para que no olvides ningún compromiso médico.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👨‍⚕️</div>
+                    <h3>Comunicación con Médicos</h3>
+                    <p>Mantente en contacto con tu médico para consultas, seguimiento de tratamientos y resolución de dudas.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Acceso Multiplataforma</h3>
+                    <p>Utiliza nuestra plataforma desde cualquier dispositivo: computadora, tablet o smartphone.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Seguridad de Datos</h3>
+                    <p>Tus datos médicos están protegidos con los más altos estándares de seguridad y confidencialidad.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <div class="section-title">
+                <h2>¿Cómo funciona?</h2>
+                <p>Sigue estos simples pasos para comenzar a utilizar nuestros servicios</p>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Regístrate</h3>
+                    <p>Crea tu cuenta con tu DNI y correo electrónico en nuestro sistema seguro.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Agenda tu cita</h3>
+                    <p>Selecciona la especialidad, médico y horario que mejor se adapte a tus necesidades.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Recibe confirmación</h3>
+                    <p>Obtén la confirmación inmediata y recordatorios automáticos de tu cita.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Accede a tu historia</h3>
+                    <p>Después de tu consulta, revisa diagnósticos y tratamientos en tu historial digital.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 class="form-title">Iniciar Sesión</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Correo electrónico o DNI</label>
+                    <input type="text" id="loginEmail" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Contraseña</label>
+                    <input type="password" id="loginPassword" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Iniciar Sesión</button>
+                <div class="form-footer">
+                    <p>¿No tienes una cuenta? <a href="#" id="switchToRegister">Regístrate aquí</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 class="form-title">Crear Cuenta</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="registerName">Nombres Completos</label>
+                    <input type="text" id="registerName" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerDni">DNI</label>
+                    <input type="text" id="registerDni" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Correo electrónico</label>
+                    <input type="email" id="registerEmail" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPhone">Teléfono</label>
+                    <input type="tel" id="registerPhone" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Contraseña</label>
+                    <input type="password" id="registerPassword" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerConfirmPassword">Confirmar Contraseña</label>
+                    <input type="password" id="registerConfirmPassword" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Registrarse</button>
+                <div class="form-footer">
+                    <p>¿Ya tienes una cuenta? <a href="#" id="switchToLogin">Inicia sesión aquí</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard (visible después del login) -->
+    <section class="dashboard" id="dashboard">
+        <div class="container">
+            <div class="dashboard-header">
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">U</div>
+                    <div>
+                        <h3 id="userName">Usuario</h3>
+                        <p id="userEmail">usuario@ejemplo.com</p>
+                    </div>
+                </div>
+                <button class="btn btn-outline" id="logoutBtn">Cerrar Sesión</button>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h3 class="card-title">📅 Próximas Citas</h3>
+                    <ul class="appointments-list" id="appointmentsList">
+                        <!-- Las citas se cargarán dinámicamente -->
+                    </ul>
+                    <button class="btn btn-primary" style="width: 100%; margin-top: 15px;" id="newAppointmentBtn">Agendar Nueva Cita</button>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3 class="card-title">📋 Historia Clínica</h3>
+                    <div id="medicalHistory">
+                        <p>Aquí podrás ver tu historial médico completo.</p>
+                        <button class="btn btn-outline" style="width: 100%; margin-top: 15px;">Ver Historia Completa</button>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3 class="card-title">👨‍⚕️ Médicos Disponibles</h3>
+                    <div id="doctorsList">
+                        <p>Lista de médicos y especialidades disponibles.</p>
+                        <button class="btn btn-outline" style="width: 100%; margin-top: 15px;">Ver Todos los Médicos</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>CaveroSalud Digital</h3>
+                    <p>Plataforma digital para la gestión de servicios médicos de la Clínica Cavero.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul>
+                        <li><a href="#">Inicio</a></li>
+                        <li><a href="#features">Servicios</a></li>
+                        <li><a href="#how-it-works">Cómo funciona</a></li>
+                        <li><a href="#about">Nosotros</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contacto</h3>
+                    <ul>
+                        <li>📍 Ayacucho, Perú</li>
+                        <li>📞 +51 966 123 456</li>
+                        <li>✉️ info@caverosalud.pe</li>
+                        <li>🌐 www.caverosalud.pe</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Clínica Cavero EIRL - RUC Nº 20564091571. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript para la funcionalidad de la página
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elementos del DOM
+            const loginBtn = document.getElementById('loginBtn');
+            const registerBtn = document.getElementById('registerBtn');
+            const heroRegisterBtn = document.getElementById('heroRegisterBtn');
+            const loginModal = document.getElementById('loginModal');
+            const registerModal = document.getElementById('registerModal');
+            const closeModalButtons = document.querySelectorAll('.close-modal');
+            const switchToRegister = document.getElementById('switchToRegister');
+            const switchToLogin = document.getElementById('switchToLogin');
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const dashboard = document.getElementById('dashboard');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const newAppointmentBtn = document.getElementById('newAppointmentBtn');
+            const appointmentsList = document.getElementById('appointmentsList');
+            const userName = document.getElementById('userName');
+            const userEmail = document.getElementById('userEmail');
+            const userAvatar = document.getElementById('userAvatar');
+
+            // Datos de ejemplo
+            let users = JSON.parse(localStorage.getItem('caverosalud_users')) || [];
+            let currentUser = JSON.parse(localStorage.getItem('caverosalud_currentUser')) || null;
+            let appointments = JSON.parse(localStorage.getItem('caverosalud_appointments')) || [];
+
+            // Inicializar la página
+            function initPage() {
+                if (currentUser) {
+                    showDashboard();
+                }
+            }
+
+            // Mostrar modal de login
+            loginBtn.addEventListener('click', function() {
+                loginModal.style.display = 'flex';
+            });
+
+            // Mostrar modal de registro
+            registerBtn.addEventListener('click', function() {
+                registerModal.style.display = 'flex';
+            });
+
+            heroRegisterBtn.addEventListener('click', function() {
+                registerModal.style.display = 'flex';
+            });
+
+            // Cerrar modales
+            closeModalButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    loginModal.style.display = 'none';
+                    registerModal.style.display = 'none';
+                });
+            });
+
+            // Cambiar entre login y registro
+            switchToRegister.addEventListener('click', function(e) {
+                e.preventDefault();
+                loginModal.style.display = 'none';
+                registerModal.style.display = 'flex';
+            });
+
+            switchToLogin.addEventListener('click', function(e) {
+                e.preventDefault();
+                registerModal.style.display = 'none';
+                loginModal.style.display = 'flex';
+            });
+
+            // Cerrar modal al hacer clic fuera
+            window.addEventListener('click', function(e) {
+                if (e.target === loginModal) {
+                    loginModal.style.display = 'none';
+                }
+                if (e.target === registerModal) {
+                    registerModal.style.display = 'none';
+                }
+            });
+
+            // Procesar formulario de login
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const emailOrDni = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+                
+                // Buscar usuario
+                const user = users.find(u => 
+                    (u.email === emailOrDni || u.dni === emailOrDni) && u.password === password
+                );
+                
+                if (user) {
+                    currentUser = user;
+                    localStorage.setItem('caverosalud_currentUser', JSON.stringify(currentUser));
+                    loginModal.style.display = 'none';
+                    showDashboard();
+                    loginForm.reset();
+                } else {
+                    alert('Credenciales incorrectas. Por favor, inténtalo de nuevo.');
+                }
+            });
+
+            // Procesar formulario de registro
+            registerForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('registerName').value;
+                const dni = document.getElementById('registerDni').value;
+                const email = document.getElementById('registerEmail').value;
+                const phone = document.getElementById('registerPhone').value;
+                const password = document.getElementById('registerPassword').value;
+                const confirmPassword = document.getElementById('registerConfirmPassword').value;
+                
+                // Validaciones
+                if (password !== confirmPassword) {
+                    alert('Las contraseñas no coinciden.');
+                    return;
+                }
+                
+                if (users.find(u => u.email === email)) {
+                    alert('Ya existe un usuario con este correo electrónico.');
+                    return;
+                }
+                
+                if (users.find(u => u.dni === dni)) {
+                    alert('Ya existe un usuario con este DNI.');
+                    return;
+                }
+                
+                // Crear nuevo usuario
+                const newUser = {
+                    id: Date.now(),
+                    name,
+                    dni,
+                    email,
+                    phone,
+                    password,
+                    avatar: name.charAt(0).toUpperCase()
+                };
+                
+                users.push(newUser);
+                localStorage.setItem('caverosalud_users', JSON.stringify(users));
+                
+                currentUser = newUser;
+                localStorage.setItem('caverosalud_currentUser', JSON.stringify(currentUser));
+                
+                registerModal.style.display = 'none';
+                showDashboard();
+                registerForm.reset();
+                
+                alert('¡Registro exitoso! Bienvenido a CaveroSalud Digital.');
+            });
+
+            // Cerrar sesión
+            logoutBtn.addEventListener('click', function() {
+                currentUser = null;
+                localStorage.removeItem('caverosalud_currentUser');
+                hideDashboard();
+            });
+
+            // Mostrar dashboard
+            function showDashboard() {
+                dashboard.style.display = 'block';
+                document.querySelector('header').style.display = 'none';
+                document.querySelector('.hero').style.display = 'none';
+                document.querySelector('.features').style.display = 'none';
+                document.querySelector('.how-it-works').style.display = 'none';
+                document.querySelector('footer').style.display = 'none';
+                
+                // Actualizar información del usuario
+                userName.textContent = currentUser.name;
+                userEmail.textContent = currentUser.email;
+                userAvatar.textContent = currentUser.avatar;
+                
+                // Cargar citas del usuario
+                loadUserAppointments();
+            }
+
+            // Ocultar dashboard
+            function hideDashboard() {
+                dashboard.style.display = 'none';
+                document.querySelector('header').style.display = 'block';
+                document.querySelector('.hero').style.display = 'block';
+                document.querySelector('.features').style.display = 'block';
+                document.querySelector('.how-it-works').style.display = 'block';
+                document.querySelector('footer').style.display = 'block';
+            }
+
+            // Cargar citas del usuario
+            function loadUserAppointments() {
+                const userAppointments = appointments.filter(a => a.userId === currentUser.id);
+                
+                if (userAppointments.length === 0) {
+                    appointmentsList.innerHTML = '<p>No tienes citas programadas.</p>';
+                    return;
+                }
+                
+                appointmentsList.innerHTML = '';
+                userAppointments.forEach(appointment => {
+                    const appointmentItem = document.createElement('li');
+                    appointmentItem.className = 'appointment-item';
+                    
+                    appointmentItem.innerHTML = `
+                        <div class="appointment-info">
+                            <h4>${appointment.specialty}</h4>
+                            <p>Dr. ${appointment.doctor}</p>
+                            <p>${formatDate(appointment.date)} - ${appointment.time}</p>
+                        </div>
+                        <div class="appointment-actions">
+                            <button class="btn btn-sm btn-danger cancel-appointment" data-id="${appointment.id}">Cancelar</button>
+                        </div>
+                    `;
+                    
+                    appointmentsList.appendChild(appointmentItem);
+                });
+                
+                // Agregar event listeners a los botones de cancelar
+                document.querySelectorAll('.cancel-appointment').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const appointmentId = parseInt(this.getAttribute('data-id'));
+                        cancelAppointment(appointmentId);
+                    });
+                });
+            }
+
+            // Formatear fecha
+            function formatDate(dateString) {
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                return new Date(dateString).toLocaleDateString('es-ES', options);
+            }
+
+            // Cancelar cita
+            function cancelAppointment(appointmentId) {
+                if (confirm('¿Estás seguro de que deseas cancelar esta cita?')) {
+                    appointments = appointments.filter(a => a.id !== appointmentId);
+                    localStorage.setItem('caverosalud_appointments', JSON.stringify(appointments));
+                    loadUserAppointments();
+                    alert('Cita cancelada exitosamente.');
+                }
+            }
+
+            // Agendar nueva cita
+            newAppointmentBtn.addEventListener('click', function() {
+                // En una implementación real, esto abriría un formulario para agendar citas
+                // Por ahora, simularemos la creación de una cita
+                
+                const specialties = ['Medicina General', 'Pediatría', 'Cardiología', 'Dermatología', 'Ginecología'];
+                const doctors = ['Juan Pérez', 'María García', 'Carlos López', 'Ana Martínez', 'Luis Rodríguez'];
+                
+                const randomSpecialty = specialties[Math.floor(Math.random() * specialties.length)];
+                const randomDoctor = doctors[Math.floor(Math.random() * doctors.length)];
+                
+                // Fecha en 5 días
+                const appointmentDate = new Date();
+                appointmentDate.setDate(appointmentDate.getDate() + 5);
+                
+                const newAppointment = {
+                    id: Date.now(),
+                    userId: currentUser.id,
+                    specialty: randomSpecialty,
+                    doctor: randomDoctor,
+                    date: appointmentDate.toISOString().split('T')[0],
+                    time: '10:00 AM'
+                };
+                
+                appointments.push(newAppointment);
+                localStorage.setItem('caverosalud_appointments', JSON.stringify(appointments));
+                
+                loadUserAppointments();
+                alert(`¡Cita agendada exitosamente!\nEspecialidad: ${randomSpecialty}\nMédico: Dr. ${randomDoctor}\nFecha: ${formatDate(newAppointment.date)}\nHora: ${newAppointment.time}`);
+            });
+
+            // Inicializar la página
+            initPage();
+        });
+    </script>
 </body>
 </html>
