@@ -3,17 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CaveroSalud Digital - Plataforma de Salud</title>
+    <title>CaveroSalud Digital - Plataforma Médica Integral</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Estilos CSS */
         :root {
             --primary-color: #1a73e8;
+            --primary-dark: #0d62d0;
             --secondary-color: #34a853;
             --accent-color: #fbbc05;
             --danger-color: #ea4335;
             --light-color: #f8f9fa;
             --dark-color: #202124;
             --gray-color: #5f6368;
+            --light-gray: #e8eaed;
             --border-radius: 8px;
             --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             --transition: all 0.3s ease;
@@ -102,6 +104,9 @@
             font-weight: 500;
             cursor: pointer;
             transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .btn-primary {
@@ -121,7 +126,7 @@
         }
 
         .btn-primary:hover {
-            background-color: #0d62d0;
+            background-color: var(--primary-dark);
         }
 
         .btn-outline:hover {
@@ -130,7 +135,7 @@
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, var(--primary-color), #0d62d0);
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
             color: white;
             padding: 80px 0;
             text-align: center;
@@ -265,6 +270,8 @@
             z-index: 2000;
             justify-content: center;
             align-items: center;
+            overflow-y: auto;
+            padding: 20px;
         }
 
         .modal-content {
@@ -335,6 +342,7 @@
         .dashboard {
             display: none;
             padding: 40px 0;
+            min-height: 100vh;
         }
 
         .dashboard-header {
@@ -342,6 +350,8 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--light-gray);
         }
 
         .user-info {
@@ -405,118 +415,7 @@
         .appointment-info h4 {
             margin-bottom: 5px;
         }
-            /* Appointment Modal */
-        .appointment-modal .modal-content {
-            max-width: 600px;
-        }
-        
-        .specialty-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .specialty-option {
-            border: 1px solid #ddd;
-            border-radius: var(--border-radius);
-            padding: 15px;
-            text-align: center;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .specialty-option:hover {
-            border-color: var(--primary-color);
-            background-color: rgba(26, 115, 232, 0.05);
-        }
-        
-        .specialty-option.selected {
-            border-color: var(--primary-color);
-            background-color: rgba(26, 115, 232, 0.1);
-        }
-        
-        .doctor-list {
-            margin-bottom: 20px;
-        }
-        
-        .doctor-option {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: var(--border-radius);
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .doctor-option:hover {
-            border-color: var(--primary-color);
-            background-color: rgba(26, 115, 232, 0.05);
-        }
-        
-        .doctor-option.selected {
-            border-color: var(--primary-color);
-            background-color: rgba(26, 115, 232, 0.1);
-        }
-        
-        .doctor-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: var(--secondary-color);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-        
-        .time-slots {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        
-        .time-slot {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: var(--border-radius);
-            text-align: center;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .time-slot:hover {
-            border-color: var(--primary-color);
-        }
-        
-        .time-slot.selected {
-            background-color: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-        }
-        
-        .time-slot.unavailable {
-            background-color: #f5f5f5;
-            color: #999;
-            cursor: not-allowed;
-        }
-        
-        /* Responsive para el modal de citas */
-        @media (max-width: 768px) {
-            .specialty-grid {
-                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            }
-            
-            .time-slots {
-                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-            }
-        }
+
         .appointment-info p {
             color: var(--gray-color);
             font-size: 0.9rem;
@@ -540,6 +439,123 @@
         .btn-success {
             background-color: var(--secondary-color);
             color: white;
+        }
+
+        /* Medical History */
+        .medical-history-item {
+            padding: 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            margin-bottom: 15px;
+        }
+
+        .medical-history-item h4 {
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .medical-history-meta {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: var(--gray-color);
+        }
+
+        /* Appointment Modal */
+        .specialty-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .specialty-option {
+            padding: 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .specialty-option:hover, .specialty-option.selected {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .doctor-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .doctor-option {
+            padding: 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .doctor-option:hover, .doctor-option.selected {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .date-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .date-option {
+            padding: 10px;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .date-option:hover, .date-option.selected {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .time-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .time-option {
+            padding: 10px;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .time-option:hover, .time-option.selected {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .appointment-summary {
+            background-color: var(--light-color);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-top: 20px;
         }
 
         /* Footer */
@@ -620,7 +636,7 @@
     <header>
         <div class="container header-container">
             <div class="logo">
-                <h1>CaveroSalud Digital</h1>
+                <h1><i class="fas fa-heartbeat"></i> CaveroSalud Digital</h1>
             </div>
             <nav>
                 <ul>
@@ -632,8 +648,8 @@
                 </ul>
             </nav>
             <div class="auth-buttons">
-                <button class="btn btn-outline" id="loginBtn">Iniciar Sesión</button>
-                <button class="btn btn-primary" id="registerBtn">Registrarse</button>
+                <button class="btn btn-outline" id="loginBtn"><i class="fas fa-sign-in-alt"></i> Iniciar Sesión</button>
+                <button class="btn btn-primary" id="registerBtn"><i class="fas fa-user-plus"></i> Registrarse</button>
             </div>
         </div>
     </header>
@@ -644,8 +660,8 @@
             <h2>Tu salud, nuestra prioridad</h2>
             <p>Accede a servicios médicos de calidad desde la comodidad de tu hogar. Agenda citas, consulta tu historia clínica y recibe atención personalizada.</p>
             <div class="hero-buttons">
-                <button class="btn btn-light" id="heroRegisterBtn">Comenzar ahora</button>
-                <button class="btn btn-outline" style="border-color: white; color: white;">Más información</button>
+                <button class="btn btn-light" id="heroRegisterBtn"><i class="fas fa-rocket"></i> Comenzar ahora</button>
+                <button class="btn btn-outline" style="border-color: white; color: white;"><i class="fas fa-info-circle"></i> Más información</button>
             </div>
         </div>
     </section>
@@ -659,34 +675,34 @@
             </div>
             <div class="features-grid">
                 <div class="feature-card">
-                    <div class="feature-icon">📅</div>
-                    <h3>Agenda de Citas</h3>
-                    <p>Reserva y gestiona tus citas médicas de forma rápida y sencilla, eligiendo especialidad, médico y horario.</p>
+                    <div class="feature-icon"><i class="fas fa-user-plus"></i></div>
+                    <h3>Registro de Pacientes y Médicos</h3>
+                    <p>Sistema seguro de registro para pacientes y profesionales de la salud con validación de identidad.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">📋</div>
+                    <div class="feature-icon"><i class="fas fa-calendar-check"></i></div>
+                    <h3>Sistema de Citas Inteligente</h3>
+                    <p>Agenda médica con recordatorios automáticos y gestión de disponibilidad en tiempo real.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-file-medical"></i></div>
                     <h3>Historia Clínica Digital</h3>
-                    <p>Accede a tu historial médico completo, diagnósticos, tratamientos y resultados de exámenes en cualquier momento.</p>
+                    <p>Acceso completo y seguro a tu historial médico, diagnósticos, tratamientos y resultados de exámenes.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">🔔</div>
-                    <h3>Recordatorios Automáticos</h3>
-                    <p>Recibe notificaciones y recordatorios de tus próximas citas para que no olvides ningún compromiso médico.</p>
+                    <div class="feature-icon"><i class="fas fa-stethoscope"></i></div>
+                    <h3>Panel Médico de Control</h3>
+                    <p>Herramientas especializadas para que los médicos gestionen sus consultas y atención a pacientes.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">👨‍⚕️</div>
-                    <h3>Comunicación con Médicos</h3>
-                    <p>Mantente en contacto con tu médico para consultas, seguimiento de tratamientos y resolución de dudas.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📱</div>
-                    <h3>Acceso Multiplataforma</h3>
-                    <p>Utiliza nuestra plataforma desde cualquier dispositivo: computadora, tablet o smartphone.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🔒</div>
+                    <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
                     <h3>Seguridad de Datos</h3>
-                    <p>Tus datos médicos están protegidos con los más altos estándares de seguridad y confidencialidad.</p>
+                    <p>Protección avanzada de información médica con cifrado y cumplimiento de normativas de privacidad.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-mobile-alt"></i></div>
+                    <h3>Acceso Multiplataforma</h3>
+                    <p>Plataforma responsive accesible desde cualquier dispositivo con conexión a internet.</p>
                 </div>
             </div>
         </div>
@@ -702,23 +718,28 @@
             <div class="steps">
                 <div class="step">
                     <div class="step-number">1</div>
-                    <h3>Regístrate</h3>
-                    <p>Crea tu cuenta con tu DNI y correo electrónico en nuestro sistema seguro.</p>
+                    <h3>Accede al Portal</h3>
+                    <p>Ingresa a www.caverosalud.pe desde cualquier dispositivo con internet.</p>
                 </div>
                 <div class="step">
                     <div class="step-number">2</div>
-                    <h3>Agenda tu cita</h3>
-                    <p>Selecciona la especialidad, médico y horario que mejor se adapte a tus necesidades.</p>
+                    <h3>Regístrate</h3>
+                    <p>Crea tu cuenta utilizando tu DNI y correo electrónico de forma segura.</p>
                 </div>
                 <div class="step">
                     <div class="step-number">3</div>
-                    <h3>Recibe confirmación</h3>
-                    <p>Obtén la confirmación inmediata y recordatorios automáticos de tu cita.</p>
+                    <h3>Agenda tu Cita</h3>
+                    <p>Selecciona especialidad, médico y horario disponible que prefieras.</p>
                 </div>
                 <div class="step">
                     <div class="step-number">4</div>
-                    <h3>Accede a tu historia</h3>
-                    <p>Después de tu consulta, revisa diagnósticos y tratamientos en tu historial digital.</p>
+                    <h3>Recibe Confirmación</h3>
+                    <p>El sistema confirma tu cita y envía recordatorios automáticos.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <h3>Consulta tu Historia</h3>
+                    <p>Después de tu atención, revisa diagnósticos y tratamientos en tu historial digital.</p>
                 </div>
             </div>
         </div>
@@ -728,17 +749,17 @@
     <div class="modal" id="loginModal">
         <div class="modal-content">
             <span class="close-modal">&times;</span>
-            <h2 class="form-title">Iniciar Sesión</h2>
+            <h2 class="form-title"><i class="fas fa-sign-in-alt"></i> Iniciar Sesión</h2>
             <form id="loginForm">
                 <div class="form-group">
                     <label for="loginEmail">Correo electrónico o DNI</label>
-                    <input type="text" id="loginEmail" class="form-control" required>
+                    <input type="text" id="loginEmail" class="form-control" placeholder="Ingresa tu correo o DNI" required>
                 </div>
                 <div class="form-group">
                     <label for="loginPassword">Contraseña</label>
-                    <input type="password" id="loginPassword" class="form-control" required>
+                    <input type="password" id="loginPassword" class="form-control" placeholder="Ingresa tu contraseña" required>
                 </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Iniciar Sesión</button>
+                <button type="submit" class="btn btn-primary" style="width: 100%;"><i class="fas fa-sign-in-alt"></i> Iniciar Sesión</button>
                 <div class="form-footer">
                     <p>¿No tienes una cuenta? <a href="#" id="switchToRegister">Regístrate aquí</a></p>
                 </div>
@@ -750,36 +771,88 @@
     <div class="modal" id="registerModal">
         <div class="modal-content">
             <span class="close-modal">&times;</span>
-            <h2 class="form-title">Crear Cuenta</h2>
+            <h2 class="form-title"><i class="fas fa-user-plus"></i> Crear Cuenta</h2>
             <form id="registerForm">
                 <div class="form-group">
                     <label for="registerName">Nombres Completos</label>
-                    <input type="text" id="registerName" class="form-control" required>
+                    <input type="text" id="registerName" class="form-control" placeholder="Ingresa tus nombres completos" required>
                 </div>
                 <div class="form-group">
                     <label for="registerDni">DNI</label>
-                    <input type="text" id="registerDni" class="form-control" required>
+                    <input type="text" id="registerDni" class="form-control" placeholder="Ingresa tu número de DNI" required>
                 </div>
                 <div class="form-group">
                     <label for="registerEmail">Correo electrónico</label>
-                    <input type="email" id="registerEmail" class="form-control" required>
+                    <input type="email" id="registerEmail" class="form-control" placeholder="Ingresa tu correo electrónico" required>
                 </div>
                 <div class="form-group">
                     <label for="registerPhone">Teléfono</label>
-                    <input type="tel" id="registerPhone" class="form-control" required>
+                    <input type="tel" id="registerPhone" class="form-control" placeholder="Ingresa tu número de teléfono" required>
                 </div>
                 <div class="form-group">
                     <label for="registerPassword">Contraseña</label>
-                    <input type="password" id="registerPassword" class="form-control" required>
+                    <input type="password" id="registerPassword" class="form-control" placeholder="Crea una contraseña segura" required>
                 </div>
                 <div class="form-group">
                     <label for="registerConfirmPassword">Confirmar Contraseña</label>
-                    <input type="password" id="registerConfirmPassword" class="form-control" required>
+                    <input type="password" id="registerConfirmPassword" class="form-control" placeholder="Confirma tu contraseña" required>
                 </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Registrarse</button>
+                <button type="submit" class="btn btn-primary" style="width: 100%;"><i class="fas fa-user-plus"></i> Registrarse</button>
                 <div class="form-footer">
                     <p>¿Ya tienes una cuenta? <a href="#" id="switchToLogin">Inicia sesión aquí</a></p>
                 </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Appointment Modal -->
+    <div class="modal" id="appointmentModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 class="form-title"><i class="fas fa-calendar-plus"></i> Agendar Nueva Cita</h2>
+            <form id="appointmentForm">
+                <div class="form-group">
+                    <label>Selecciona Especialidad</label>
+                    <div class="specialty-selector" id="specialtySelector">
+                        <div class="specialty-option" data-specialty="Medicina General">Medicina General</div>
+                        <div class="specialty-option" data-specialty="Pediatría">Pediatría</div>
+                        <div class="specialty-option" data-specialty="Cardiología">Cardiología</div>
+                        <div class="specialty-option" data-specialty="Dermatología">Dermatología</div>
+                        <div class="specialty-option" data-specialty="Ginecología">Ginecología</div>
+                        <div class="specialty-option" data-specialty="Oftalmología">Oftalmología</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Selecciona Médico</label>
+                    <div class="doctor-selector" id="doctorSelector">
+                        <!-- Los médicos se cargarán dinámicamente según la especialidad -->
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Selecciona Fecha</label>
+                    <div class="date-selector" id="dateSelector">
+                        <!-- Las fechas se cargarán dinámicamente -->
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Selecciona Horario</label>
+                    <div class="time-selector" id="timeSelector">
+                        <!-- Los horarios se cargarán dinámicamente -->
+                    </div>
+                </div>
+
+                <div class="appointment-summary" id="appointmentSummary" style="display: none;">
+                    <h4>Resumen de tu cita</h4>
+                    <p id="summarySpecialty"></p>
+                    <p id="summaryDoctor"></p>
+                    <p id="summaryDate"></p>
+                    <p id="summaryTime"></p>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%;" id="confirmAppointmentBtn" disabled><i class="fas fa-calendar-check"></i> Confirmar Cita</button>
             </form>
         </div>
     </div>
@@ -795,31 +868,59 @@
                         <p id="userEmail">usuario@ejemplo.com</p>
                     </div>
                 </div>
-                <button class="btn btn-outline" id="logoutBtn">Cerrar Sesión</button>
+                <button class="btn btn-outline" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</button>
             </div>
 
             <div class="dashboard-grid">
                 <div class="dashboard-card">
-                    <h3 class="card-title">📅 Próximas Citas</h3>
+                    <h3 class="card-title"><i class="fas fa-calendar-alt"></i> Próximas Citas</h3>
                     <ul class="appointments-list" id="appointmentsList">
                         <!-- Las citas se cargarán dinámicamente -->
                     </ul>
-                    <button class="btn btn-primary" style="width: 100%; margin-top: 15px;" id="newAppointmentBtn">Agendar Nueva Cita</button>
+                    <button class="btn btn-primary" style="width: 100%; margin-top: 15px;" id="newAppointmentBtn"><i class="fas fa-calendar-plus"></i> Agendar Nueva Cita</button>
                 </div>
 
                 <div class="dashboard-card">
-                    <h3 class="card-title">📋 Historia Clínica</h3>
+                    <h3 class="card-title"><i class="fas fa-file-medical"></i> Historia Clínica</h3>
                     <div id="medicalHistory">
-                        <p>Aquí podrás ver tu historial médico completo.</p>
-                        <button class="btn btn-outline" style="width: 100%; margin-top: 15px;">Ver Historia Completa</button>
+                        <div class="medical-history-item">
+                            <h4>Consulta de Medicina General</h4>
+                            <div class="medical-history-meta">
+                                <span><i class="fas fa-calendar"></i> 15 Oct 2023</span>
+                                <span><i class="fas fa-user-md"></i> Dr. Juan Pérez</span>
+                            </div>
+                            <p><strong>Diagnóstico:</strong> Infección respiratoria superior</p>
+                            <p><strong>Tratamiento:</strong> Amoxicilina 500mg cada 8 horas por 7 días</p>
+                        </div>
+                        <div class="medical-history-item">
+                            <h4>Control Cardiológico</h4>
+                            <div class="medical-history-meta">
+                                <span><i class="fas fa-calendar"></i> 05 Sep 2023</span>
+                                <span><i class="fas fa-user-md"></i> Dra. María García</span>
+                            </div>
+                            <p><strong>Diagnóstico:</strong> Presión arterial elevada</p>
+                            <p><strong>Tratamiento:</strong> Losartán 50mg una vez al día</p>
+                        </div>
+                        <button class="btn btn-outline" style="width: 100%; margin-top: 15px;"><i class="fas fa-history"></i> Ver Historia Completa</button>
                     </div>
                 </div>
 
                 <div class="dashboard-card">
-                    <h3 class="card-title">👨‍⚕️ Médicos Disponibles</h3>
+                    <h3 class="card-title"><i class="fas fa-user-md"></i> Médicos Disponibles</h3>
                     <div id="doctorsList">
-                        <p>Lista de médicos y especialidades disponibles.</p>
-                        <button class="btn btn-outline" style="width: 100%; margin-top: 15px;">Ver Todos los Médicos</button>
+                        <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
+                            <h4>Dr. Juan Pérez</h4>
+                            <p><i class="fas fa-stethoscope"></i> Medicina General</p>
+                        </div>
+                        <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
+                            <h4>Dra. María García</h4>
+                            <p><i class="fas fa-heartbeat"></i> Cardiología</p>
+                        </div>
+                        <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
+                            <h4>Dr. Carlos López</h4>
+                            <p><i class="fas fa-eye"></i> Oftalmología</p>
+                        </div>
+                        <button class="btn btn-outline" style="width: 100%; margin-top: 15px;"><i class="fas fa-list"></i> Ver Todos los Médicos</button>
                     </div>
                 </div>
             </div>
@@ -832,7 +933,7 @@
             <div class="footer-content">
                 <div class="footer-column">
                     <h3>CaveroSalud Digital</h3>
-                    <p>Plataforma digital para la gestión de servicios médicos de la Clínica Cavero.</p>
+                    <p>Plataforma digital para la gestión de servicios médicos de la Clínica Cavero. RUC Nº 20564091571</p>
                 </div>
                 <div class="footer-column">
                     <h3>Enlaces Rápidos</h3>
@@ -846,15 +947,15 @@
                 <div class="footer-column">
                     <h3>Contacto</h3>
                     <ul>
-                        <li>📍 Ayacucho, Perú</li>
-                        <li>📞 +51 966 123 456</li>
-                        <li>✉️ info@caverosalud.pe</li>
-                        <li>🌐 www.caverosalud.pe</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Ayacucho, Perú</li>
+                        <li><i class="fas fa-phone"></i> +51 966 123 456</li>
+                        <li><i class="fas fa-envelope"></i> info@caverosalud.pe</li>
+                        <li><i class="fas fa-globe"></i> www.caverosalud.pe</li>
                     </ul>
                 </div>
             </div>
             <div class="copyright">
-                <p>&copy; 2025 Clínica Cavero EIRL - RUC Nº 20564091571. Todos los derechos reservados.</p>
+                <p>&copy; 2025 Clínica Cavero EIRL - Todos los derechos reservados.</p>
             </div>
         </div>
     </footer>
@@ -868,11 +969,13 @@
             const heroRegisterBtn = document.getElementById('heroRegisterBtn');
             const loginModal = document.getElementById('loginModal');
             const registerModal = document.getElementById('registerModal');
+            const appointmentModal = document.getElementById('appointmentModal');
             const closeModalButtons = document.querySelectorAll('.close-modal');
             const switchToRegister = document.getElementById('switchToRegister');
             const switchToLogin = document.getElementById('switchToLogin');
             const loginForm = document.getElementById('loginForm');
             const registerForm = document.getElementById('registerForm');
+            const appointmentForm = document.getElementById('appointmentForm');
             const dashboard = document.getElementById('dashboard');
             const logoutBtn = document.getElementById('logoutBtn');
             const newAppointmentBtn = document.getElementById('newAppointmentBtn');
@@ -880,478 +983,21 @@
             const userName = document.getElementById('userName');
             const userEmail = document.getElementById('userEmail');
             const userAvatar = document.getElementById('userAvatar');
+            const specialtySelector = document.getElementById('specialtySelector');
+            const doctorSelector = document.getElementById('doctorSelector');
+            const dateSelector = document.getElementById('dateSelector');
+            const timeSelector = document.getElementById('timeSelector');
+            const appointmentSummary = document.getElementById('appointmentSummary');
+            const confirmAppointmentBtn = document.getElementById('confirmAppointmentBtn');
 
             // Datos de ejemplo
             let users = JSON.parse(localStorage.getItem('caverosalud_users')) || [];
             let currentUser = JSON.parse(localStorage.getItem('caverosalud_currentUser')) || null;
             let appointments = JSON.parse(localStorage.getItem('caverosalud_appointments')) || [];
-
-            // Inicializar la página
-            function initPage() {
-                if (currentUser) {
-                    showDashboard();
-                }
-            }
-
-            // Mostrar modal de login
-            loginBtn.addEventListener('click', function() {
-                loginModal.style.display = 'flex';
-            });
-
-            // Mostrar modal de registro
-            registerBtn.addEventListener('click', function() {
-                registerModal.style.display = 'flex';
-            });
-
-            heroRegisterBtn.addEventListener('click', function() {
-                registerModal.style.display = 'flex';
-            });
-
-            // Cerrar modales
-            closeModalButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    loginModal.style.display = 'none';
-                    registerModal.style.display = 'none';
-                });
-            });
-
-            // Cambiar entre login y registro
-            switchToRegister.addEventListener('click', function(e) {
-                e.preventDefault();
-                loginModal.style.display = 'none';
-                registerModal.style.display = 'flex';
-            });
-
-            switchToLogin.addEventListener('click', function(e) {
-                e.preventDefault();
-                registerModal.style.display = 'none';
-                loginModal.style.display = 'flex';
-            });
-
-            // Cerrar modal al hacer clic fuera
-            window.addEventListener('click', function(e) {
-                if (e.target === loginModal) {
-                    loginModal.style.display = 'none';
-                }
-                if (e.target === registerModal) {
-                    registerModal.style.display = 'none';
-                }
-            });
-
-            // Procesar formulario de login
-            loginForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const emailOrDni = document.getElementById('loginEmail').value;
-                const password = document.getElementById('loginPassword').value;
-                
-                // Buscar usuario
-                const user = users.find(u => 
-                    (u.email === emailOrDni || u.dni === emailOrDni) && u.password === password
-                );
-                
-                if (user) {
-                    currentUser = user;
-                    localStorage.setItem('caverosalud_currentUser', JSON.stringify(currentUser));
-                    loginModal.style.display = 'none';
-                    showDashboard();
-                    loginForm.reset();
-                } else {
-                    alert('Credenciales incorrectas. Por favor, inténtalo de nuevo.');
-                }
-            });
-
-            // Procesar formulario de registro
-            registerForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const name = document.getElementById('registerName').value;
-                const dni = document.getElementById('registerDni').value;
-                const email = document.getElementById('registerEmail').value;
-                const phone = document.getElementById('registerPhone').value;
-                const password = document.getElementById('registerPassword').value;
-                const confirmPassword = document.getElementById('registerConfirmPassword').value;
-                
-                // Validaciones
-                if (password !== confirmPassword) {
-                    alert('Las contraseñas no coinciden.');
-                    return;
-                }
-                
-                if (users.find(u => u.email === email)) {
-                    alert('Ya existe un usuario con este correo electrónico.');
-                    return;
-                }
-                
-                if (users.find(u => u.dni === dni)) {
-                    alert('Ya existe un usuario con este DNI.');
-                    return;
-                }
-                
-                // Crear nuevo usuario
-                const newUser = {
-                    id: Date.now(),
-                    name,
-                    dni,
-                    email,
-                    phone,
-                    password,
-                    avatar: name.charAt(0).toUpperCase()
-                };
-                
-                users.push(newUser);
-                localStorage.setItem('caverosalud_users', JSON.stringify(users));
-                
-                currentUser = newUser;
-                localStorage.setItem('caverosalud_currentUser', JSON.stringify(currentUser));
-                
-                registerModal.style.display = 'none';
-                showDashboard();
-                registerForm.reset();
-                
-                alert('¡Registro exitoso! Bienvenido a CaveroSalud Digital.');
-            });
-
-            // Cerrar sesión
-            logoutBtn.addEventListener('click', function() {
-                currentUser = null;
-                localStorage.removeItem('caverosalud_currentUser');
-                hideDashboard();
-            });
-
-            // Mostrar dashboard
-            function showDashboard() {
-                dashboard.style.display = 'block';
-                document.querySelector('header').style.display = 'none';
-                document.querySelector('.hero').style.display = 'none';
-                document.querySelector('.features').style.display = 'none';
-                document.querySelector('.how-it-works').style.display = 'none';
-                document.querySelector('footer').style.display = 'none';
-                
-                // Actualizar información del usuario
-                userName.textContent = currentUser.name;
-                userEmail.textContent = currentUser.email;
-                userAvatar.textContent = currentUser.avatar;
-                
-                // Cargar citas del usuario
-                loadUserAppointments();
-            }
-
-            // Ocultar dashboard
-            function hideDashboard() {
-                dashboard.style.display = 'none';
-                document.querySelector('header').style.display = 'block';
-                document.querySelector('.hero').style.display = 'block';
-                document.querySelector('.features').style.display = 'block';
-                document.querySelector('.how-it-works').style.display = 'block';
-                document.querySelector('footer').style.display = 'block';
-            }
-
-            // Cargar citas del usuario
-            function loadUserAppointments() {
-                const userAppointments = appointments.filter(a => a.userId === currentUser.id);
-                
-                if (userAppointments.length === 0) {
-                    appointmentsList.innerHTML = '<p>No tienes citas programadas.</p>';
-                    return;
-                }
-                
-                appointmentsList.innerHTML = '';
-                userAppointments.forEach(appointment => {
-                    const appointmentItem = document.createElement('li');
-                    appointmentItem.className = 'appointment-item';
-                    
-                    appointmentItem.innerHTML = `
-                        <div class="appointment-info">
-                            <h4>${appointment.specialty}</h4>
-                            <p>Dr. ${appointment.doctor}</p>
-                            <p>${formatDate(appointment.date)} - ${appointment.time}</p>
-                        </div>
-                        <div class="appointment-actions">
-                            <button class="btn btn-sm btn-danger cancel-appointment" data-id="${appointment.id}">Cancelar</button>
-                        </div>
-                    `;
-                    
-                    appointmentsList.appendChild(appointmentItem);
-                });
-                
-                // Agregar event listeners a los botones de cancelar
-                document.querySelectorAll('.cancel-appointment').forEach(button => {
-                    button.addEventListener('click', function() {
-                        const appointmentId = parseInt(this.getAttribute('data-id'));
-                        cancelAppointment(appointmentId);
-                    });
-                });
-            }
-
-            // Formatear fecha
-            function formatDate(dateString) {
-                const options = { year: 'numeric', month: 'long', day: 'numeric' };
-                return new Date(dateString).toLocaleDateString('es-ES', options);
-            }
-
-            // Cancelar cita
-            function cancelAppointment(appointmentId) {
-                if (confirm('¿Estás seguro de que deseas cancelar esta cita?')) {
-                    appointments = appointments.filter(a => a.id !== appointmentId);
-                    localStorage.setItem('caverosalud_appointments', JSON.stringify(appointments));
-                    loadUserAppointments();
-                    alert('Cita cancelada exitosamente.');
-                }
-            }
-
-            // Agendar nueva cita - Versión mejorada
-            newAppointmentBtn.addEventListener('click', function() {
-                showAppointmentModal();
-            });
             
-            // Mostrar modal de agendar cita
-            function showAppointmentModal() {
-                // Crear modal dinámicamente
-                const modal = document.createElement('div');
-                modal.className = 'modal appointment-modal';
-                modal.id = 'appointmentModal';
-                
-                modal.innerHTML = `
-                    <div class="modal-content">
-                        <span class="close-modal">&times;</span>
-                        <h2 class="form-title">Agendar Nueva Cita</h2>
-                        <form id="appointmentForm">
-                            <div class="form-group">
-                                <label>Selecciona Especialidad</label>
-                                <div class="specialty-grid" id="specialtyGrid"></div>
-                            </div>
-                            
-                            <div class="form-group" id="doctorSection" style="display: none;">
-                                <label>Selecciona Médico</label>
-                                <div class="doctor-list" id="doctorList"></div>
-                            </div>
-                            
-                            <div class="form-group" id="dateSection" style="display: none;">
-                                <label for="appointmentDate">Fecha de la cita</label>
-                                <input type="date" id="appointmentDate" class="form-control" min="${getTomorrowDate()}" required>
-                            </div>
-                            
-                            <div class="form-group" id="timeSection" style="display: none;">
-                                <label>Selecciona Horario</label>
-                                <div class="time-slots" id="timeSlots"></div>
-                            </div>
-                            
-                            <button type="submit" class="btn btn-primary" style="width: 100%;" id="confirmAppointmentBtn" disabled>Confirmar Cita</button>
-                        </form>
-                    </div>
-                `;
-                
-                document.body.appendChild(modal);
-                
-                // Configurar eventos del modal
-                const closeBtn = modal.querySelector('.close-modal');
-                const specialtyGrid = modal.querySelector('#specialtyGrid');
-                const doctorSection = modal.querySelector('#doctorSection');
-                const doctorList = modal.querySelector('#doctorList');
-                const dateSection = modal.querySelector('#dateSection');
-                const timeSection = modal.querySelector('#timeSection');
-                const timeSlots = modal.querySelector('#timeSlots');
-                const appointmentForm = modal.querySelector('#appointmentForm');
-                const confirmBtn = modal.querySelector('#confirmAppointmentBtn');
-                
-                let selectedSpecialty = null;
-                let selectedDoctor = null;
-                let selectedDate = null;
-                let selectedTime = null;
-                
-                // Datos de especialidades y médicos
-                const specialties = [
-                    { id: 1, name: 'Medicina General', icon: '👨‍⚕️' },
-                    { id: 2, name: 'Pediatría', icon: '👶' },
-                    { id: 3, name: 'Cardiología', icon: '❤️' },
-                    { id: 4, name: 'Dermatología', icon: '🔬' },
-                    { id: 5, name: 'Ginecología', icon: '🌸' },
-                    { id: 6, name: 'Oftalmología', icon: '👁️' },
-                    { id: 7, name: 'Odontología', icon: '🦷' },
-                    { id: 8, name: 'Traumatología', icon: '🦴' }
-                ];
-            
-                const doctors = [
-                    { id: 1, name: 'Dr. Juan Pérez', specialty: 'Medicina General', avatar: 'JP' },
-                    { id: 2, name: 'Dra. María García', specialty: 'Pediatría', avatar: 'MG' },
-                    { id: 3, name: 'Dr. Carlos López', specialty: 'Cardiología', avatar: 'CL' },
-                    { id: 4, name: 'Dra. Ana Martínez', specialty: 'Dermatología', avatar: 'AM' },
-                    { id: 5, name: 'Dra. Laura Rodríguez', specialty: 'Ginecología', avatar: 'LR' },
-                    { id: 6, name: 'Dr. Luis Fernández', specialty: 'Oftalmología', avatar: 'LF' },
-                    { id: 7, name: 'Dr. Roberto Silva', specialty: 'Odontología', avatar: 'RS' },
-                    { id: 8, name: 'Dra. Carmen Vargas', specialty: 'Traumatología', avatar: 'CV' },
-                    { id: 9, name: 'Dr. Miguel Torres', specialty: 'Medicina General', avatar: 'MT' },
-                    { id: 10, name: 'Dra. Sofia Rios', specialty: 'Pediatría', avatar: 'SR' }
-                ];
-            
-                // Cargar especialidades
-                specialties.forEach(specialty => {
-                    const specialtyOption = document.createElement('div');
-                    specialtyOption.className = 'specialty-option';
-                    specialtyOption.innerHTML = `
-                        <div style="font-size: 2rem;">${specialty.icon}</div>
-                        <div>${specialty.name}</div>
-                    `;
-                    
-                    specialtyOption.addEventListener('click', function() {
-                        document.querySelectorAll('.specialty-option').forEach(opt => {
-                            opt.classList.remove('selected');
-                        });
-                        this.classList.add('selected');
-                        
-                        selectedSpecialty = specialty;
-                        loadDoctors(specialty.id);
-                        doctorSection.style.display = 'block';
-                        updateConfirmButton();
-                    });
-                    
-                    specialtyGrid.appendChild(specialtyOption);
-                });
-                
-                // Cargar médicos según especialidad
-                function loadDoctors(specialtyId) {
-                    doctorList.innerHTML = '';
-                    const specialtyName = specialties.find(s => s.id === specialtyId).name;
-                    const filteredDoctors = doctors.filter(doctor => doctor.specialty === specialtyName);
-                    
-                    if (filteredDoctors.length === 0) {
-                        doctorList.innerHTML = '<p style="text-align: center; color: var(--gray-color);">No hay médicos disponibles para esta especialidad</p>';
-                        return;
-                    }
-                    
-                    filteredDoctors.forEach(doctor => {
-                        const doctorOption = document.createElement('div');
-                        doctorOption.className = 'doctor-option';
-                        doctorOption.innerHTML = `
-                            <div class="doctor-avatar">${doctor.avatar}</div>
-                            <div>
-                                <h4>${doctor.name}</h4>
-                                <p>${doctor.specialty}</p>
-                            </div>
-                        `;
-                        
-                        doctorOption.addEventListener('click', function() {
-                            document.querySelectorAll('.doctor-option').forEach(opt => {
-                                opt.classList.remove('selected');
-                            });
-                            this.classList.add('selected');
-                            
-                            selectedDoctor = doctor;
-                            dateSection.style.display = 'block';
-                            updateConfirmButton();
-                        });
-                        
-                        doctorList.appendChild(doctorOption);
-                    });
-                }
-                
-                // Configurar selector de fecha
-                const dateInput = modal.querySelector('#appointmentDate');
-                dateInput.addEventListener('change', function() {
-                    selectedDate = this.value;
-                    timeSection.style.display = 'block';
-                    loadTimeSlots();
-                    updateConfirmButton();
-                });
-                
-                // Cargar horarios disponibles
-                function loadTimeSlots() {
-                    timeSlots.innerHTML = '';
-                    const timeSlotsArray = [
-                        '8:00 AM', '8:30 AM', '9:00 AM', '9:30 AM', 
-                        '10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM',
-                        '2:00 PM', '2:30 PM', '3:00 PM', '3:30 PM', 
-                        '4:00 PM', '4:30 PM', '5:00 PM', '5:30 PM'
-                    ];
-                    
-                    timeSlotsArray.forEach(time => {
-                        const timeSlot = document.createElement('div');
-                        timeSlot.className = 'time-slot';
-                        timeSlot.textContent = time;
-                        
-                        // Verificar si el horario ya está ocupado (simulación)
-                        const isOccupied = appointments.some(apt => 
-                            apt.date === selectedDate && 
-                            apt.time === time && 
-                            apt.doctor === selectedDoctor.name
-                        );
-                        
-                        if (isOccupied) {
-                            timeSlot.classList.add('unavailable');
-                            timeSlot.title = 'Horario no disponible';
-                        } else {
-                            timeSlot.addEventListener('click', function() {
-                                document.querySelectorAll('.time-slot').forEach(slot => {
-                                    slot.classList.remove('selected');
-                                });
-                                this.classList.add('selected');
-                                
-                                selectedTime = time;
-                                updateConfirmButton();
-                            });
-                        }
-                        
-                        timeSlots.appendChild(timeSlot);
-                    });
-                }
-                
-                // Actualizar estado del botón de confirmación
-                function updateConfirmButton() {
-                    if (selectedSpecialty && selectedDoctor && selectedDate && selectedTime) {
-                        confirmBtn.disabled = false;
-                    } else {
-                        confirmBtn.disabled = true;
-                    }
-                }
-                
-                // Procesar formulario de cita
-                appointmentForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    const newAppointment = {
-                        id: Date.now(),
-                        userId: currentUser.id,
-                        specialty: selectedSpecialty.name,
-                        doctor: selectedDoctor.name,
-                        date: selectedDate,
-                        time: selectedTime,
-                        status: 'confirmada'
-                    };
-                    
-                    appointments.push(newAppointment);
-                    localStorage.setItem('caverosalud_appointments', JSON.stringify(appointments));
-                    
-                    modal.remove();
-                    loadUserAppointments();
-                    
-                    alert(`¡Cita agendada exitosamente!\n\nEspecialidad: ${selectedSpecialty.name}\nMédico: ${selectedDoctor.name}\nFecha: ${formatDate(selectedDate)}\nHora: ${selectedTime}\n\nRecibirás un recordatorio por correo electrónico.`);
-                });
-                
-                // Cerrar modal
-                closeBtn.addEventListener('click', function() {
-                    modal.remove();
-                });
-                
-                window.addEventListener('click', function(e) {
-                    if (e.target === modal) {
-                        modal.remove();
-                    }
-                });
-                
-                // Mostrar modal
-                modal.style.display = 'flex';
-            }
-            
-            // Obtener fecha de mañana en formato YYYY-MM-DD
-            function getTomorrowDate() {
-                const tomorrow = new Date();
-                tomorrow.setDate(tomorrow.getDate() + 1);
-                return tomorrow.toISOString().split('T')[0];
-            }
-            // Inicializar la página
-            initPage();
-        });
-    </script>
-</body>
-</html>
+            // Datos de médicos y especialidades
+            const doctors = [
+                { id: 1, name: "Dr. Juan Pérez", specialty: "Medicina General", available: true },
+                { id: 2, name: "Dra. María García", specialty: "Cardiología", available: true },
+                { id: 3, name: "Dr. Carlos López", specialty: "Oftalmología", available: true },
+                { id: 4, name: "Dra. Ana Martínez", specialty: "
