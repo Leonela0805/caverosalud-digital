@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CaveroSalud Digital - Plataforma Médica Integral</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
             --primary-color: #1a73e8;
@@ -62,10 +61,6 @@
             display: flex;
             align-items: center;
             gap: 10px;
-        }
-
-        .logo img {
-            height: 40px;
         }
 
         .logo h1 {
@@ -574,6 +569,34 @@
             to { transform: rotate(360deg); }
         }
 
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: var(--border-radius);
+            color: white;
+            font-weight: 500;
+            z-index: 3000;
+            max-width: 400px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.success {
+            background-color: var(--secondary-color);
+        }
+
+        .notification.error {
+            background-color: var(--danger-color);
+        }
+
+        .notification.info {
+            background-color: var(--primary-color);
+        }
+
         /* Footer */
         footer {
             background-color: var(--dark-color);
@@ -677,7 +700,7 @@
             <p>Accede a servicios médicos de calidad desde la comodidad de tu hogar. Agenda citas, consulta tu historia clínica y recibe atención personalizada.</p>
             <div class="hero-buttons">
                 <button class="btn btn-light" id="heroRegisterBtn"><i class="fas fa-rocket"></i> Comenzar ahora</button>
-                <button class="btn btn-outline" style="border-color: white; color: white;"><i class="fas fa-info-circle"></i> Más información</button>
+                <button class="btn btn-outline" style="border-color: white; color: white;" id="moreInfoBtn"><i class="fas fa-info-circle"></i> Más información</button>
             </div>
         </div>
     </section>
@@ -846,7 +869,7 @@
                 <div class="form-group">
                     <label>Selecciona Médico</label>
                     <div class="doctor-selector" id="doctorSelector">
-                        <!-- Los médicos se cargarán dinámicamente según la especialidad -->
+                        <!-- Los médicos se cargarán dinámicamente -->
                     </div>
                 </div>
 
@@ -897,7 +920,26 @@
                 <div class="dashboard-card">
                     <h3 class="card-title"><i class="fas fa-calendar-alt"></i> Próximas Citas</h3>
                     <ul class="appointments-list" id="appointmentsList">
-                        <!-- Las citas se cargarán dinámicamente -->
+                        <li class="appointment-item">
+                            <div class="appointment-info">
+                                <h4>Medicina General</h4>
+                                <p>Dr. Juan Pérez</p>
+                                <p>15 de Noviembre 2023 - 10:00 AM</p>
+                            </div>
+                            <div class="appointment-actions">
+                                <button class="btn btn-sm btn-danger">Cancelar</button>
+                            </div>
+                        </li>
+                        <li class="appointment-item">
+                            <div class="appointment-info">
+                                <h4>Cardiología</h4>
+                                <p>Dra. María García</p>
+                                <p>20 de Noviembre 2023 - 03:00 PM</p>
+                            </div>
+                            <div class="appointment-actions">
+                                <button class="btn btn-sm btn-danger">Cancelar</button>
+                            </div>
+                        </li>
                     </ul>
                     <button class="btn btn-primary" style="width: 100%; margin-top: 15px;" id="newAppointmentBtn">
                         <i class="fas fa-calendar-plus"></i> Agendar Nueva Cita
@@ -907,14 +949,48 @@
                 <div class="dashboard-card">
                     <h3 class="card-title"><i class="fas fa-file-medical"></i> Historia Clínica</h3>
                     <div id="medicalHistory">
-                        <!-- La historia clínica se cargará dinámicamente -->
+                        <div class="medical-history-item">
+                            <h4>Consulta de Medicina General</h4>
+                            <div class="medical-history-meta">
+                                <span><i class="fas fa-calendar"></i> 15 Oct 2023</span>
+                                <span><i class="fas fa-user-md"></i> Dr. Juan Pérez</span>
+                            </div>
+                            <p><strong>Diagnóstico:</strong> Infección respiratoria superior</p>
+                            <p><strong>Tratamiento:</strong> Amoxicilina 500mg cada 8 horas por 7 días</p>
+                        </div>
+                        <div class="medical-history-item">
+                            <h4>Control Cardiológico</h4>
+                            <div class="medical-history-meta">
+                                <span><i class="fas fa-calendar"></i> 05 Sep 2023</span>
+                                <span><i class="fas fa-user-md"></i> Dra. María García</span>
+                            </div>
+                            <p><strong>Diagnóstico:</strong> Presión arterial elevada</p>
+                            <p><strong>Tratamiento:</strong> Losartán 50mg una vez al día</p>
+                        </div>
+                        <button class="btn btn-outline" style="width: 100%; margin-top: 15px;">
+                            <i class="fas fa-history"></i> Ver Historia Completa
+                        </button>
                     </div>
                 </div>
 
                 <div class="dashboard-card">
                     <h3 class="card-title"><i class="fas fa-user-md"></i> Médicos Disponibles</h3>
                     <div id="doctorsList">
-                        <!-- Los médicos se cargarán dinámicamente -->
+                        <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
+                            <h4>Dr. Juan Pérez</h4>
+                            <p><i class="fas fa-stethoscope"></i> Medicina General</p>
+                        </div>
+                        <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
+                            <h4>Dra. María García</h4>
+                            <p><i class="fas fa-heartbeat"></i> Cardiología</p>
+                        </div>
+                        <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
+                            <h4>Dr. Carlos López</h4>
+                            <p><i class="fas fa-eye"></i> Oftalmología</p>
+                        </div>
+                        <button class="btn btn-outline" style="width: 100%; margin-top: 15px;">
+                            <i class="fas fa-list"></i> Ver Todos los Médicos
+                        </button>
                     </div>
                 </div>
             </div>
@@ -955,694 +1031,5 @@
     </footer>
 
     <script>
-        // Configuración de Supabase
-        const SUPABASE_URL = 'https://qhsokyfcwvdfyxemobpx.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFoc29reWZjd3ZkZnl4ZW1vYnB4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMzMzM3MTUsImV4cCI6MjA3ODkwOTcxNX0.gvdPYVqcZ15CW1k6KFcXOXfXOPhaTEO37VCsAGSfNwY';
-        
-        // Inicializar Supabase
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-        document.addEventListener('DOMContentLoaded', function() {
-            // Elementos del DOM
-            const loginBtn = document.getElementById('loginBtn');
-            const registerBtn = document.getElementById('registerBtn');
-            const heroRegisterBtn = document.getElementById('heroRegisterBtn');
-            const loginModal = document.getElementById('loginModal');
-            const registerModal = document.getElementById('registerModal');
-            const appointmentModal = document.getElementById('appointmentModal');
-            const closeModalButtons = document.querySelectorAll('.close-modal');
-            const switchToRegister = document.getElementById('switchToRegister');
-            const switchToLogin = document.getElementById('switchToLogin');
-            const loginForm = document.getElementById('loginForm');
-            const registerForm = document.getElementById('registerForm');
-            const appointmentForm = document.getElementById('appointmentForm');
-            const dashboard = document.getElementById('dashboard');
-            const logoutBtn = document.getElementById('logoutBtn');
-            const newAppointmentBtn = document.getElementById('newAppointmentBtn');
-            const appointmentsList = document.getElementById('appointmentsList');
-            const userName = document.getElementById('userName');
-            const userEmail = document.getElementById('userEmail');
-            const userAvatar = document.getElementById('userAvatar');
-            const specialtySelector = document.getElementById('specialtySelector');
-            const doctorSelector = document.getElementById('doctorSelector');
-            const dateSelector = document.getElementById('dateSelector');
-            const timeSelector = document.getElementById('timeSelector');
-            const appointmentSummary = document.getElementById('appointmentSummary');
-            const confirmAppointmentBtn = document.getElementById('confirmAppointmentBtn');
-            const loginSubmitBtn = document.getElementById('loginSubmitBtn');
-            const registerSubmitBtn = document.getElementById('registerSubmitBtn');
-
-            // Variables para el estado de la aplicación
-            let currentUser = null;
-            let selectedSpecialty = null;
-            let selectedDoctor = null;
-            let selectedDate = null;
-            let selectedTime = null;
-
-            // Inicializar la aplicación
-            async function initApp() {
-                // Verificar si hay una sesión activa
-                const { data: { session } } = await supabase.auth.getSession();
-                if (session) {
-                    currentUser = session.user;
-                    await loadUserProfile();
-                    showDashboard();
-                }
-            }
-
-            // Mostrar modal de login
-            loginBtn.addEventListener('click', function() {
-                loginModal.style.display = 'flex';
-            });
-
-            // Mostrar modal de registro
-            registerBtn.addEventListener('click', function() {
-                registerModal.style.display = 'flex';
-            });
-
-            heroRegisterBtn.addEventListener('click', function() {
-                registerModal.style.display = 'flex';
-            });
-
-            // Cerrar modales
-            closeModalButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    loginModal.style.display = 'none';
-                    registerModal.style.display = 'none';
-                    appointmentModal.style.display = 'none';
-                });
-            });
-
-            // Cambiar entre login y registro
-            switchToRegister.addEventListener('click', function(e) {
-                e.preventDefault();
-                loginModal.style.display = 'none';
-                registerModal.style.display = 'flex';
-            });
-
-            switchToLogin.addEventListener('click', function(e) {
-                e.preventDefault();
-                registerModal.style.display = 'none';
-                loginModal.style.display = 'flex';
-            });
-
-            // Cerrar modal al hacer clic fuera
-            window.addEventListener('click', function(e) {
-                if (e.target === loginModal) {
-                    loginModal.style.display = 'none';
-                }
-                if (e.target === registerModal) {
-                    registerModal.style.display = 'none';
-                }
-                if (e.target === appointmentModal) {
-                    appointmentModal.style.display = 'none';
-                }
-            });
-
-            // Procesar formulario de login
-            loginForm.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                
-                const email = document.getElementById('loginEmail').value;
-                const password = document.getElementById('loginPassword').value;
-                
-                // Mostrar loading
-                loginSubmitBtn.innerHTML = '<div class="loading"></div> Iniciando sesión...';
-                loginSubmitBtn.disabled = true;
-                
-                try {
-                    const { data, error } = await supabase.auth.signInWithPassword({
-                        email: email,
-                        password: password
-                    });
-                    
-                    if (error) throw error;
-                    
-                    currentUser = data.user;
-                    await loadUserProfile();
-                    loginModal.style.display = 'none';
-                    showDashboard();
-                    loginForm.reset();
-                    
-                    showNotification('¡Bienvenido de nuevo!', 'success');
-                } catch (error) {
-                    showNotification('Error al iniciar sesión: ' + error.message, 'error');
-                } finally {
-                    loginSubmitBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Iniciar Sesión';
-                    loginSubmitBtn.disabled = false;
-                }
-            });
-
-            // Procesar formulario de registro
-            registerForm.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                
-                const name = document.getElementById('registerName').value;
-                const dni = document.getElementById('registerDni').value;
-                const email = document.getElementById('registerEmail').value;
-                const phone = document.getElementById('registerPhone').value;
-                const password = document.getElementById('registerPassword').value;
-                const confirmPassword = document.getElementById('registerConfirmPassword').value;
-                
-                // Validaciones
-                if (password !== confirmPassword) {
-                    showNotification('Las contraseñas no coinciden.', 'error');
-                    return;
-                }
-                
-                // Mostrar loading
-                registerSubmitBtn.innerHTML = '<div class="loading"></div> Registrando...';
-                registerSubmitBtn.disabled = true;
-                
-                try {
-                    // Registrar usuario en Supabase Auth
-                    const { data, error } = await supabase.auth.signUp({
-                        email: email,
-                        password: password,
-                        options: {
-                            data: {
-                                full_name: name,
-                                dni: dni,
-                                phone: phone
-                            }
-                        }
-                    });
-                    
-                    if (error) throw error;
-                    
-                    // Crear perfil en la tabla profiles
-                    const { error: profileError } = await supabase
-                        .from('profiles')
-                        .insert([
-                            {
-                                id: data.user.id,
-                                full_name: name,
-                                dni: dni,
-                                email: email,
-                                phone: phone,
-                                user_type: 'patient',
-                                avatar: name.charAt(0).toUpperCase()
-                            }
-                        ]);
-                    
-                    if (profileError) throw profileError;
-                    
-                    currentUser = data.user;
-                    registerModal.style.display = 'none';
-                    showDashboard();
-                    registerForm.reset();
-                    
-                    showNotification('¡Registro exitoso! Bienvenido a CaveroSalud Digital.', 'success');
-                } catch (error) {
-                    showNotification('Error al registrarse: ' + error.message, 'error');
-                } finally {
-                    registerSubmitBtn.innerHTML = '<i class="fas fa-user-plus"></i> Registrarse';
-                    registerSubmitBtn.disabled = false;
-                }
-            });
-
-            // Cargar perfil del usuario
-            async function loadUserProfile() {
-                try {
-                    const { data, error } = await supabase
-                        .from('profiles')
-                        .select('*')
-                        .eq('id', currentUser.id)
-                        .single();
-                    
-                    if (error) throw error;
-                    
-                    // Actualizar información en el dashboard
-                    userName.textContent = data.full_name;
-                    userEmail.textContent = currentUser.email;
-                    userAvatar.textContent = data.avatar;
-                    
-                    // Cargar citas del usuario
-                    await loadUserAppointments();
-                    // Cargar historia clínica
-                    await loadMedicalHistory();
-                    // Cargar médicos disponibles
-                    await loadDoctors();
-                } catch (error) {
-                    console.error('Error cargando perfil:', error);
-                }
-            }
-
-            // Cargar citas del usuario
-            async function loadUserAppointments() {
-                try {
-                    const { data, error } = await supabase
-                        .from('appointments')
-                        .select(`
-                            *,
-                            doctors (name, specialty),
-                            medical_records (diagnosis, treatment)
-                        `)
-                        .eq('patient_id', currentUser.id)
-                        .order('appointment_date', { ascending: true });
-                    
-                    if (error) throw error;
-                    
-                    if (data.length === 0) {
-                        appointmentsList.innerHTML = '<p>No tienes citas programadas.</p>';
-                        return;
-                    }
-                    
-                    appointmentsList.innerHTML = '';
-                    data.forEach(appointment => {
-                        const appointmentItem = document.createElement('li');
-                        appointmentItem.className = 'appointment-item';
-                        
-                        const appointmentDate = new Date(appointment.appointment_date);
-                        const formattedDate = appointmentDate.toLocaleDateString('es-ES', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric'
-                        });
-                        
-                        appointmentItem.innerHTML = `
-                            <div class="appointment-info">
-                                <h4>${appointment.doctors.specialty}</h4>
-                                <p>${appointment.doctors.name}</p>
-                                <p>${formattedDate} - ${appointment.appointment_time}</p>
-                                ${appointment.status === 'completed' && appointment.medical_records ? 
-                                    `<p><strong>Diagnóstico:</strong> ${appointment.medical_records.diagnosis}</p>` : ''}
-                            </div>
-                            <div class="appointment-actions">
-                                ${appointment.status === 'scheduled' ? 
-                                    `<button class="btn btn-sm btn-danger cancel-appointment" data-id="${appointment.id}">Cancelar</button>` : 
-                                    `<span class="badge">${appointment.status === 'completed' ? 'Completada' : 'Cancelada'}</span>`
-                                }
-                            </div>
-                        `;
-                        
-                        appointmentsList.appendChild(appointmentItem);
-                    });
-                    
-                    // Agregar event listeners a los botones de cancelar
-                    document.querySelectorAll('.cancel-appointment').forEach(button => {
-                        button.addEventListener('click', function() {
-                            const appointmentId = this.getAttribute('data-id');
-                            cancelAppointment(appointmentId);
-                        });
-                    });
-                } catch (error) {
-                    console.error('Error cargando citas:', error);
-                    appointmentsList.innerHTML = '<p>Error al cargar las citas.</p>';
-                }
-            }
-
-            // Cargar historia clínica
-            async function loadMedicalHistory() {
-                try {
-                    const { data, error } = await supabase
-                        .from('medical_records')
-                        .select(`
-                            *,
-                            appointments (
-                                appointment_date,
-                                doctors (name, specialty)
-                            )
-                        `)
-                        .eq('patient_id', currentUser.id)
-                        .order('created_at', { ascending: false });
-                    
-                    if (error) throw error;
-                    
-                    const medicalHistory = document.getElementById('medicalHistory');
-                    
-                    if (data.length === 0) {
-                        medicalHistory.innerHTML = `
-                            <p>No hay registros médicos disponibles.</p>
-                            <button class="btn btn-outline" style="width: 100%; margin-top: 15px;">
-                                <i class="fas fa-history"></i> Ver Historia Completa
-                            </button>
-                        `;
-                        return;
-                    }
-                    
-                    let historyHTML = '';
-                    data.forEach(record => {
-                        const recordDate = new Date(record.appointments.appointment_date);
-                        const formattedDate = recordDate.toLocaleDateString('es-ES', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric'
-                        });
-                        
-                        historyHTML += `
-                            <div class="medical-history-item">
-                                <h4>${record.appointments.doctors.specialty}</h4>
-                                <div class="medical-history-meta">
-                                    <span><i class="fas fa-calendar"></i> ${formattedDate}</span>
-                                    <span><i class="fas fa-user-md"></i> ${record.appointments.doctors.name}</span>
-                                </div>
-                                <p><strong>Diagnóstico:</strong> ${record.diagnosis}</p>
-                                <p><strong>Tratamiento:</strong> ${record.treatment}</p>
-                                ${record.notes ? `<p><strong>Notas:</strong> ${record.notes}</p>` : ''}
-                            </div>
-                        `;
-                    });
-                    
-                    historyHTML += `
-                        <button class="btn btn-outline" style="width: 100%; margin-top: 15px;">
-                            <i class="fas fa-history"></i> Ver Historia Completa
-                        </button>
-                    `;
-                    
-                    medicalHistory.innerHTML = historyHTML;
-                } catch (error) {
-                    console.error('Error cargando historia clínica:', error);
-                    document.getElementById('medicalHistory').innerHTML = '<p>Error al cargar la historia clínica.</p>';
-                }
-            }
-
-            // Cargar médicos disponibles
-            async function loadDoctors() {
-                try {
-                    const { data, error } = await supabase
-                        .from('doctors')
-                        .select('*')
-                        .eq('available', true);
-                    
-                    if (error) throw error;
-                    
-                    const doctorsList = document.getElementById('doctorsList');
-                    
-                    if (data.length === 0) {
-                        doctorsList.innerHTML = '<p>No hay médicos disponibles en este momento.</p>';
-                        return;
-                    }
-                    
-                    let doctorsHTML = '';
-                    data.forEach(doctor => {
-                        doctorsHTML += `
-                            <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
-                                <h4>${doctor.name}</h4>
-                                <p><i class="fas fa-stethoscope"></i> ${doctor.specialty}</p>
-                                ${doctor.description ? `<p style="font-size: 0.9rem; color: #666;">${doctor.description}</p>` : ''}
-                            </div>
-                        `;
-                    });
-                    
-                    doctorsHTML += `
-                        <button class="btn btn-outline" style="width: 100%; margin-top: 15px;">
-                            <i class="fas fa-list"></i> Ver Todos los Médicos
-                        </button>
-                    `;
-                    
-                    doctorsList.innerHTML = doctorsHTML;
-                } catch (error) {
-                    console.error('Error cargando médicos:', error);
-                    document.getElementById('doctorsList').innerHTML = '<p>Error al cargar los médicos.</p>';
-                }
-            }
-
-            // Agendar nueva cita
-            newAppointmentBtn.addEventListener('click', function() {
-                appointmentModal.style.display = 'flex';
-                resetAppointmentForm();
-                loadAvailableDoctors();
-                loadAvailableDates();
-            });
-
-            // Cargar médicos disponibles para citas
-            async function loadAvailableDoctors() {
-                try {
-                    const { data, error } = await supabase
-                        .from('doctors')
-                        .select('*')
-                        .eq('available', true);
-                    
-                    if (error) throw error;
-                    
-                    doctorSelector.innerHTML = '';
-                    data.forEach(doctor => {
-                        const doctorOption = document.createElement('div');
-                        doctorOption.className = 'doctor-option';
-                        doctorOption.setAttribute('data-doctor-id', doctor.id);
-                        doctorOption.setAttribute('data-doctor-name', doctor.name);
-                        doctorOption.textContent = doctor.name;
-                        
-                        doctorOption.addEventListener('click', function() {
-                            document.querySelectorAll('.doctor-option').forEach(opt => opt.classList.remove('selected'));
-                            this.classList.add('selected');
-                            selectedDoctor = {
-                                id: this.getAttribute('data-doctor-id'),
-                                name: this.getAttribute('data-doctor-name')
-                            };
-                            updateAppointmentSummary();
-                        });
-                        
-                        doctorSelector.appendChild(doctorOption);
-                    });
-                } catch (error) {
-                    console.error('Error cargando médicos:', error);
-                    doctorSelector.innerHTML = '<p>Error al cargar los médicos.</p>';
-                }
-            }
-
-            // Cargar fechas disponibles
-            function loadAvailableDates() {
-                dateSelector.innerHTML = '';
-                const today = new Date();
-                
-                for (let i = 1; i <= 14; i++) {
-                    const date = new Date(today);
-                    date.setDate(today.getDate() + i);
-                    
-                    // Excluir fines de semana
-                    if (date.getDay() !== 0 && date.getDay() !== 6) {
-                        const dateOption = document.createElement('div');
-                        dateOption.className = 'date-option';
-                        dateOption.setAttribute('data-date', date.toISOString().split('T')[0]);
-                        dateOption.textContent = date.toLocaleDateString('es-ES', {
-                            day: 'numeric',
-                            month: 'short'
-                        });
-                        
-                        dateOption.addEventListener('click', function() {
-                            document.querySelectorAll('.date-option').forEach(opt => opt.classList.remove('selected'));
-                            this.classList.add('selected');
-                            selectedDate = this.getAttribute('data-date');
-                            loadAvailableTimes();
-                            updateAppointmentSummary();
-                        });
-                        
-                        dateSelector.appendChild(dateOption);
-                    }
-                }
-            }
-
-            // Cargar horarios disponibles
-            function loadAvailableTimes() {
-                timeSelector.innerHTML = '';
-                const times = ['08:00', '09:00', '10:00', '11:00', '14:00', '15:00', '16:00', '17:00'];
-                
-                times.forEach(time => {
-                    const timeOption = document.createElement('div');
-                    timeOption.className = 'time-option';
-                    timeOption.setAttribute('data-time', time);
-                    timeOption.textContent = time;
-                    
-                    timeOption.addEventListener('click', function() {
-                        document.querySelectorAll('.time-option').forEach(opt => opt.classList.remove('selected'));
-                        this.classList.add('selected');
-                        selectedTime = this.getAttribute('data-time');
-                        updateAppointmentSummary();
-                    });
-                    
-                    timeSelector.appendChild(timeOption);
-                });
-            }
-
-            // Selección de especialidad
-            document.querySelectorAll('.specialty-option').forEach(option => {
-                option.addEventListener('click', function() {
-                    document.querySelectorAll('.specialty-option').forEach(opt => opt.classList.remove('selected'));
-                    this.classList.add('selected');
-                    selectedSpecialty = this.getAttribute('data-specialty');
-                    updateAppointmentSummary();
-                });
-            });
-
-            // Actualizar resumen de cita
-            function updateAppointmentSummary() {
-                if (selectedSpecialty && selectedDoctor && selectedDate && selectedTime) {
-                    const formattedDate = new Date(selectedDate).toLocaleDateString('es-ES', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                    });
-                    
-                    document.getElementById('summarySpecialty').textContent = `Especialidad: ${selectedSpecialty}`;
-                    document.getElementById('summaryDoctor').textContent = `Médico: ${selectedDoctor.name}`;
-                    document.getElementById('summaryDate').textContent = `Fecha: ${formattedDate}`;
-                    document.getElementById('summaryTime').textContent = `Hora: ${selectedTime}`;
-                    
-                    appointmentSummary.style.display = 'block';
-                    confirmAppointmentBtn.disabled = false;
-                } else {
-                    appointmentSummary.style.display = 'none';
-                    confirmAppointmentBtn.disabled = true;
-                }
-            }
-
-            // Resetear formulario de citas
-            function resetAppointmentForm() {
-                selectedSpecialty = null;
-                selectedDoctor = null;
-                selectedDate = null;
-                selectedTime = null;
-                
-                document.querySelectorAll('.specialty-option').forEach(opt => opt.classList.remove('selected'));
-                document.querySelectorAll('.doctor-option').forEach(opt => opt.classList.remove('selected'));
-                document.querySelectorAll('.date-option').forEach(opt => opt.classList.remove('selected'));
-                document.querySelectorAll('.time-option').forEach(opt => opt.classList.remove('selected'));
-                
-                appointmentSummary.style.display = 'none';
-                confirmAppointmentBtn.disabled = true;
-            }
-
-            // Confirmar cita
-            appointmentForm.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                
-                if (!selectedSpecialty || !selectedDoctor || !selectedDate || !selectedTime) {
-                    showNotification('Por favor, completa todos los campos de la cita.', 'error');
-                    return;
-                }
-                
-                try {
-                    const { data, error } = await supabase
-                        .from('appointments')
-                        .insert([
-                            {
-                                patient_id: currentUser.id,
-                                doctor_id: selectedDoctor.id,
-                                appointment_date: selectedDate,
-                                appointment_time: selectedTime,
-                                specialty: selectedSpecialty,
-                                status: 'scheduled'
-                            }
-                        ]);
-                    
-                    if (error) throw error;
-                    
-                    appointmentModal.style.display = 'none';
-                    await loadUserAppointments();
-                    
-                    showNotification('¡Cita agendada exitosamente! Recibirás un recordatorio antes de tu cita.', 'success');
-                } catch (error) {
-                    showNotification('Error al agendar la cita: ' + error.message, 'error');
-                }
-            });
-
-            // Cancelar cita
-            async function cancelAppointment(appointmentId) {
-                if (!confirm('¿Estás seguro de que deseas cancelar esta cita?')) {
-                    return;
-                }
-                
-                try {
-                    const { error } = await supabase
-                        .from('appointments')
-                        .update({ status: 'cancelled' })
-                        .eq('id', appointmentId);
-                    
-                    if (error) throw error;
-                    
-                    await loadUserAppointments();
-                    showNotification('Cita cancelada exitosamente.', 'success');
-                } catch (error) {
-                    showNotification('Error al cancelar la cita: ' + error.message, 'error');
-                }
-            }
-
-            // Cerrar sesión
-            logoutBtn.addEventListener('click', async function() {
-                try {
-                    const { error } = await supabase.auth.signOut();
-                    if (error) throw error;
-                    
-                    currentUser = null;
-                    hideDashboard();
-                    showNotification('Sesión cerrada correctamente.', 'success');
-                } catch (error) {
-                    showNotification('Error al cerrar sesión: ' + error.message, 'error');
-                }
-            });
-
-            // Mostrar dashboard
-            function showDashboard() {
-                dashboard.style.display = 'block';
-                document.querySelector('header').style.display = 'none';
-                document.querySelector('.hero').style.display = 'none';
-                document.querySelector('.features').style.display = 'none';
-                document.querySelector('.how-it-works').style.display = 'none';
-                document.querySelector('footer').style.display = 'none';
-            }
-
-            // Ocultar dashboard
-            function hideDashboard() {
-                dashboard.style.display = 'none';
-                document.querySelector('header').style.display = 'block';
-                document.querySelector('.hero').style.display = 'block';
-                document.querySelector('.features').style.display = 'block';
-                document.querySelector('.how-it-works').style.display = 'block';
-                document.querySelector('footer').style.display = 'block';
-            }
-
-            // Mostrar notificación
-            function showNotification(message, type = 'info') {
-                // Crear elemento de notificación
-                const notification = document.createElement('div');
-                notification.style.cssText = `
-                    position: fixed;
-                    top: 20px;
-                    right: 20px;
-                    padding: 15px 20px;
-                    border-radius: var(--border-radius);
-                    color: white;
-                    font-weight: 500;
-                    z-index: 3000;
-                    max-width: 400px;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-                    transform: translateX(100%);
-                    transition: transform 0.3s ease;
-                `;
-                
-                // Establecer color según el tipo
-                if (type === 'success') {
-                    notification.style.backgroundColor = var(--secondary-color);
-                } else if (type === 'error') {
-                    notification.style.backgroundColor = var(--danger-color);
-                } else {
-                    notification.style.backgroundColor = var(--primary-color);
-                }
-                
-                notification.textContent = message;
-                document.body.appendChild(notification);
-                
-                // Animación de entrada
-                setTimeout(() => {
-                    notification.style.transform = 'translateX(0)';
-                }, 100);
-                
-                // Eliminar después de 5 segundos
-                setTimeout(() => {
-                    notification.style.transform = 'translateX(100%)';
-                    setTimeout(() => {
-                        if (notification.parentNode) {
-                            notification.parentNode.removeChild(notification);
-                        }
-                    }, 300);
-                }, 5000);
-            }
-
-            // Inicializar la aplicación
-            initApp();
-        });
-    </script>
-</body>
-</html>
+        // Simulación de base de datos local
+        const users = JSON.parse(localStorage.getItem('caverosalud_users')) || [];
