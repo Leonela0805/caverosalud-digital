@@ -1033,3 +1033,522 @@
     <script>
         // Simulación de base de datos local
         const users = JSON.parse(localStorage.getItem('caverosalud_users')) || [];
+        let currentUser = JSON.parse(localStorage.getItem('caverosalud_currentUser')) || null;
+        const appointments = JSON.parse(localStorage.getItem('caverosalud_appointments')) || [];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Página cargada - inicializando eventos');
+            
+            // Elementos del DOM
+            const loginBtn = document.getElementById('loginBtn');
+            const registerBtn = document.getElementById('registerBtn');
+            const heroRegisterBtn = document.getElementById('heroRegisterBtn');
+            const moreInfoBtn = document.getElementById('moreInfoBtn');
+            const loginModal = document.getElementById('loginModal');
+            const registerModal = document.getElementById('registerModal');
+            const appointmentModal = document.getElementById('appointmentModal');
+            const closeModalButtons = document.querySelectorAll('.close-modal');
+            const switchToRegister = document.getElementById('switchToRegister');
+            const switchToLogin = document.getElementById('switchToLogin');
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const appointmentForm = document.getElementById('appointmentForm');
+            const dashboard = document.getElementById('dashboard');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const newAppointmentBtn = document.getElementById('newAppointmentBtn');
+            const appointmentsList = document.getElementById('appointmentsList');
+            const userName = document.getElementById('userName');
+            const userEmail = document.getElementById('userEmail');
+            const userAvatar = document.getElementById('userAvatar');
+            const specialtySelector = document.getElementById('specialtySelector');
+            const doctorSelector = document.getElementById('doctorSelector');
+            const dateSelector = document.getElementById('dateSelector');
+            const timeSelector = document.getElementById('timeSelector');
+            const appointmentSummary = document.getElementById('appointmentSummary');
+            const confirmAppointmentBtn = document.getElementById('confirmAppointmentBtn');
+
+            // Variables para el estado de la aplicación
+            let selectedSpecialty = null;
+            let selectedDoctor = null;
+            let selectedDate = null;
+            let selectedTime = null;
+
+            // Inicializar la aplicación
+            function initApp() {
+                console.log('Inicializando aplicación');
+                if (currentUser) {
+                    showDashboard();
+                }
+                
+                // Agregar datos de ejemplo si no existen
+                if (users.length === 0) {
+                    const exampleUser = {
+                        id: 1,
+                        name: "Usuario Demo",
+                        dni: "12345678",
+                        email: "demo@caverosalud.pe",
+                        phone: "987654321",
+                        password: "demo123",
+                        avatar: "U"
+                    };
+                    users.push(exampleUser);
+                    localStorage.setItem('caverosalud_users', JSON.stringify(users));
+                }
+            }
+
+            // Mostrar modal de login
+            loginBtn.addEventListener('click', function() {
+                console.log('Botón login clickeado');
+                loginModal.style.display = 'flex';
+            });
+
+            // Mostrar modal de registro
+            registerBtn.addEventListener('click', function() {
+                console.log('Botón registro clickeado');
+                registerModal.style.display = 'flex';
+            });
+
+            heroRegisterBtn.addEventListener('click', function() {
+                console.log('Botón hero registro clickeado');
+                registerModal.style.display = 'flex';
+            });
+
+            // Botón más información
+            moreInfoBtn.addEventListener('click', function() {
+                showNotification('Para más información, contacta con nuestro equipo de soporte.', 'info');
+            });
+
+            // Cerrar modales
+            closeModalButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    loginModal.style.display = 'none';
+                    registerModal.style.display = 'none';
+                    appointmentModal.style.display = 'none';
+                });
+            });
+
+            // Cambiar entre login y registro
+            switchToRegister.addEventListener('click', function(e) {
+                e.preventDefault();
+                loginModal.style.display = 'none';
+                registerModal.style.display = 'flex';
+            });
+
+            switchToLogin.addEventListener('click', function(e) {
+                e.preventDefault();
+                registerModal.style.display = 'none';
+                loginModal.style.display = 'flex';
+            });
+
+            // Cerrar modal al hacer clic fuera
+            window.addEventListener('click', function(e) {
+                if (e.target === loginModal) {
+                    loginModal.style.display = 'none';
+                }
+                if (e.target === registerModal) {
+                    registerModal.style.display = 'none';
+                }
+                if (e.target === appointmentModal) {
+                    appointmentModal.style.display = 'none';
+                }
+            });
+
+            // Procesar formulario de login
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                console.log('Formulario login enviado');
+                
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+                
+                // Mostrar loading
+                const loginSubmitBtn = document.getElementById('loginSubmitBtn');
+                loginSubmitBtn.innerHTML = '<div class="loading"></div> Iniciando sesión...';
+                loginSubmitBtn.disabled = true;
+                
+                // Simular verificación de credenciales
+                setTimeout(() => {
+                    const user = users.find(u => u.email === email && u.password === password);
+                    
+                    if (user) {
+                        currentUser = user;
+                        localStorage.setItem('caverosalud_currentUser', JSON.stringify(currentUser));
+                        loginModal.style.display = 'none';
+                        showDashboard();
+                        loginForm.reset();
+                        showNotification('¡Bienvenido de nuevo!', 'success');
+                    } else {
+                        showNotification('Credenciales incorrectas. Por favor, inténtalo de nuevo.', 'error');
+                    }
+                    
+                    loginSubmitBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Iniciar Sesión';
+                    loginSubmitBtn.disabled = false;
+                }, 1500);
+            });
+
+            // Procesar formulario de registro
+            registerForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                console.log('Formulario registro enviado');
+                
+                const name = document.getElementById('registerName').value;
+                const dni = document.getElementById('registerDni').value;
+                const email = document.getElementById('registerEmail').value;
+                const phone = document.getElementById('registerPhone').value;
+                const password = document.getElementById('registerPassword').value;
+                const confirmPassword = document.getElementById('registerConfirmPassword').value;
+                
+                // Validaciones
+                if (password !== confirmPassword) {
+                    showNotification('Las contraseñas no coinciden.', 'error');
+                    return;
+                }
+                
+                if (users.find(u => u.email === email)) {
+                    showNotification('Ya existe un usuario con este correo electrónico.', 'error');
+                    return;
+                }
+                
+                if (users.find(u => u.dni === dni)) {
+                    showNotification('Ya existe un usuario con este DNI.', 'error');
+                    return;
+                }
+                
+                // Mostrar loading
+                const registerSubmitBtn = document.getElementById('registerSubmitBtn');
+                registerSubmitBtn.innerHTML = '<div class="loading"></div> Registrando...';
+                registerSubmitBtn.disabled = true;
+                
+                // Simular proceso de registro
+                setTimeout(() => {
+                    // Crear nuevo usuario
+                    const newUser = {
+                        id: Date.now(),
+                        name,
+                        dni,
+                        email,
+                        phone,
+                        password,
+                        avatar: name.charAt(0).toUpperCase()
+                    };
+                    
+                    users.push(newUser);
+                    localStorage.setItem('caverosalud_users', JSON.stringify(users));
+                    
+                    currentUser = newUser;
+                    localStorage.setItem('caverosalud_currentUser', JSON.stringify(currentUser));
+                    
+                    registerModal.style.display = 'none';
+                    showDashboard();
+                    registerForm.reset();
+                    
+                    showNotification('¡Registro exitoso! Bienvenido a CaveroSalud Digital.', 'success');
+                    
+                    registerSubmitBtn.innerHTML = '<i class="fas fa-user-plus"></i> Registrarse';
+                    registerSubmitBtn.disabled = false;
+                }, 1500);
+            });
+
+            // Cerrar sesión
+            logoutBtn.addEventListener('click', function() {
+                console.log('Cerrando sesión');
+                currentUser = null;
+                localStorage.removeItem('caverosalud_currentUser');
+                hideDashboard();
+                showNotification('Sesión cerrada correctamente.', 'success');
+            });
+
+            // Agendar nueva cita
+            newAppointmentBtn.addEventListener('click', function() {
+                console.log('Abriendo modal de citas');
+                appointmentModal.style.display = 'flex';
+                resetAppointmentForm();
+                loadAvailableDoctors();
+                loadAvailableDates();
+            });
+
+            // Cargar médicos disponibles para citas
+            function loadAvailableDoctors() {
+                // Datos de ejemplo
+                const doctors = [
+                    { id: 1, name: "Dr. Juan Pérez", specialty: "Medicina General" },
+                    { id: 2, name: "Dra. María García", specialty: "Cardiología" },
+                    { id: 3, name: "Dr. Carlos López", specialty: "Oftalmología" },
+                    { id: 4, name: "Dra. Ana Martínez", specialty: "Pediatría" },
+                    { id: 5, name: "Dr. Luis Rodríguez", specialty: "Dermatología" },
+                    { id: 6, name: "Dra. Carmen Vargas", specialty: "Ginecología" }
+                ];
+                
+                doctorSelector.innerHTML = '';
+                doctors.forEach(doctor => {
+                    const doctorOption = document.createElement('div');
+                    doctorOption.className = 'doctor-option';
+                    doctorOption.setAttribute('data-doctor-id', doctor.id);
+                    doctorOption.setAttribute('data-doctor-name', doctor.name);
+                    doctorOption.textContent = doctor.name;
+                    
+                    doctorOption.addEventListener('click', function() {
+                        document.querySelectorAll('.doctor-option').forEach(opt => opt.classList.remove('selected'));
+                        this.classList.add('selected');
+                        selectedDoctor = {
+                            id: this.getAttribute('data-doctor-id'),
+                            name: this.getAttribute('data-doctor-name')
+                        };
+                        updateAppointmentSummary();
+                    });
+                    
+                    doctorSelector.appendChild(doctorOption);
+                });
+            }
+
+            // Cargar fechas disponibles
+            function loadAvailableDates() {
+                dateSelector.innerHTML = '';
+                const today = new Date();
+                
+                for (let i = 1; i <= 14; i++) {
+                    const date = new Date(today);
+                    date.setDate(today.getDate() + i);
+                    
+                    // Excluir fines de semana
+                    if (date.getDay() !== 0 && date.getDay() !== 6) {
+                        const dateOption = document.createElement('div');
+                        dateOption.className = 'date-option';
+                        dateOption.setAttribute('data-date', date.toISOString().split('T')[0]);
+                        dateOption.textContent = date.toLocaleDateString('es-ES', {
+                            day: 'numeric',
+                            month: 'short'
+                        });
+                        
+                        dateOption.addEventListener('click', function() {
+                            document.querySelectorAll('.date-option').forEach(opt => opt.classList.remove('selected'));
+                            this.classList.add('selected');
+                            selectedDate = this.getAttribute('data-date');
+                            loadAvailableTimes();
+                            updateAppointmentSummary();
+                        });
+                        
+                        dateSelector.appendChild(dateOption);
+                    }
+                }
+            }
+
+            // Cargar horarios disponibles
+            function loadAvailableTimes() {
+                timeSelector.innerHTML = '';
+                const times = ['08:00', '09:00', '10:00', '11:00', '14:00', '15:00', '16:00', '17:00'];
+                
+                times.forEach(time => {
+                    const timeOption = document.createElement('div');
+                    timeOption.className = 'time-option';
+                    timeOption.setAttribute('data-time', time);
+                    timeOption.textContent = time;
+                    
+                    timeOption.addEventListener('click', function() {
+                        document.querySelectorAll('.time-option').forEach(opt => opt.classList.remove('selected'));
+                        this.classList.add('selected');
+                        selectedTime = this.getAttribute('data-time');
+                        updateAppointmentSummary();
+                    });
+                    
+                    timeSelector.appendChild(timeOption);
+                });
+            }
+
+            // Selección de especialidad
+            document.querySelectorAll('.specialty-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.specialty-option').forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedSpecialty = this.getAttribute('data-specialty');
+                    updateAppointmentSummary();
+                });
+            });
+
+            // Actualizar resumen de cita
+            function updateAppointmentSummary() {
+                if (selectedSpecialty && selectedDoctor && selectedDate && selectedTime) {
+                    const formattedDate = new Date(selectedDate).toLocaleDateString('es-ES', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+                    
+                    document.getElementById('summarySpecialty').textContent = `Especialidad: ${selectedSpecialty}`;
+                    document.getElementById('summaryDoctor').textContent = `Médico: ${selectedDoctor.name}`;
+                    document.getElementById('summaryDate').textContent = `Fecha: ${formattedDate}`;
+                    document.getElementById('summaryTime').textContent = `Hora: ${selectedTime}`;
+                    
+                    appointmentSummary.style.display = 'block';
+                    confirmAppointmentBtn.disabled = false;
+                } else {
+                    appointmentSummary.style.display = 'none';
+                    confirmAppointmentBtn.disabled = true;
+                }
+            }
+
+            // Resetear formulario de citas
+            function resetAppointmentForm() {
+                selectedSpecialty = null;
+                selectedDoctor = null;
+                selectedDate = null;
+                selectedTime = null;
+                
+                document.querySelectorAll('.specialty-option').forEach(opt => opt.classList.remove('selected'));
+                document.querySelectorAll('.doctor-option').forEach(opt => opt.classList.remove('selected'));
+                document.querySelectorAll('.date-option').forEach(opt => opt.classList.remove('selected'));
+                document.querySelectorAll('.time-option').forEach(opt => opt.classList.remove('selected'));
+                
+                appointmentSummary.style.display = 'none';
+                confirmAppointmentBtn.disabled = true;
+            }
+
+            // Confirmar cita
+            appointmentForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                console.log('Confirmando cita');
+                
+                if (!selectedSpecialty || !selectedDoctor || !selectedDate || !selectedTime) {
+                    showNotification('Por favor, completa todos los campos de la cita.', 'error');
+                    return;
+                }
+                
+                // Simular guardado de cita
+                const newAppointment = {
+                    id: Date.now(),
+                    patientId: currentUser.id,
+                    doctor: selectedDoctor.name,
+                    specialty: selectedSpecialty,
+                    date: selectedDate,
+                    time: selectedTime,
+                    status: 'scheduled'
+                };
+                
+                appointments.push(newAppointment);
+                localStorage.setItem('caverosalud_appointments', JSON.stringify(appointments));
+                
+                appointmentModal.style.display = 'none';
+                updateAppointmentsList();
+                
+                showNotification('¡Cita agendada exitosamente! Recibirás un recordatorio antes de tu cita.', 'success');
+            });
+
+            // Actualizar lista de citas
+            function updateAppointmentsList() {
+                const userAppointments = appointments.filter(a => a.patientId === currentUser.id);
+                
+                if (userAppointments.length === 0) {
+                    appointmentsList.innerHTML = '<p>No tienes citas programadas.</p>';
+                    return;
+                }
+                
+                appointmentsList.innerHTML = '';
+                userAppointments.forEach(appointment => {
+                    const appointmentItem = document.createElement('li');
+                    appointmentItem.className = 'appointment-item';
+                    
+                    const appointmentDate = new Date(appointment.date);
+                    const formattedDate = appointmentDate.toLocaleDateString('es-ES', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+                    
+                    appointmentItem.innerHTML = `
+                        <div class="appointment-info">
+                            <h4>${appointment.specialty}</h4>
+                            <p>${appointment.doctor}</p>
+                            <p>${formattedDate} - ${appointment.time}</p>
+                        </div>
+                        <div class="appointment-actions">
+                            <button class="btn btn-sm btn-danger cancel-appointment" data-id="${appointment.id}">Cancelar</button>
+                        </div>
+                    `;
+                    
+                    appointmentsList.appendChild(appointmentItem);
+                });
+                
+                // Agregar event listeners a los botones de cancelar
+                document.querySelectorAll('.cancel-appointment').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const appointmentId = parseInt(this.getAttribute('data-id'));
+                        cancelAppointment(appointmentId);
+                    });
+                });
+            }
+
+            // Cancelar cita
+            function cancelAppointment(appointmentId) {
+                if (!confirm('¿Estás seguro de que deseas cancelar esta cita?')) {
+                    return;
+                }
+                
+                const appointmentIndex = appointments.findIndex(a => a.id === appointmentId);
+                if (appointmentIndex !== -1) {
+                    appointments.splice(appointmentIndex, 1);
+                    localStorage.setItem('caverosalud_appointments', JSON.stringify(appointments));
+                    updateAppointmentsList();
+                    showNotification('Cita cancelada exitosamente.', 'success');
+                }
+            }
+
+            // Mostrar dashboard
+            function showDashboard() {
+                console.log('Mostrando dashboard');
+                dashboard.style.display = 'block';
+                document.querySelector('header').style.display = 'none';
+                document.querySelector('.hero').style.display = 'none';
+                document.querySelector('.features').style.display = 'none';
+                document.querySelector('.how-it-works').style.display = 'none';
+                document.querySelector('footer').style.display = 'none';
+                
+                // Actualizar información del usuario
+                userName.textContent = currentUser.name;
+                userEmail.textContent = currentUser.email;
+                userAvatar.textContent = currentUser.avatar;
+                
+                // Actualizar citas
+                updateAppointmentsList();
+            }
+
+            // Ocultar dashboard
+            function hideDashboard() {
+                console.log('Ocultando dashboard');
+                dashboard.style.display = 'none';
+                document.querySelector('header').style.display = 'block';
+                document.querySelector('.hero').style.display = 'block';
+                document.querySelector('.features').style.display = 'block';
+                document.querySelector('.how-it-works').style.display = 'block';
+                document.querySelector('footer').style.display = 'block';
+            }
+
+            // Mostrar notificación
+            function showNotification(message, type = 'info') {
+                // Crear elemento de notificación
+                const notification = document.createElement('div');
+                notification.className = `notification ${type}`;
+                notification.textContent = message;
+                document.body.appendChild(notification);
+                
+                // Animación de entrada
+                setTimeout(() => {
+                    notification.style.transform = 'translateX(0)';
+                }, 100);
+                
+                // Eliminar después de 5 segundos
+                setTimeout(() => {
+                    notification.style.transform = 'translateX(100%)';
+                    setTimeout(() => {
+                        if (notification.parentNode) {
+                            notification.parentNode.removeChild(notification);
+                        }
+                    }, 300);
+                }, 5000);
+            }
+
+            // Inicializar la aplicación
+            initApp();
+        });
+    </script>
+</body>
+</html>
